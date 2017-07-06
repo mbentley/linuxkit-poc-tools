@@ -1,3 +1,13 @@
+#!/bin/bash
+
+set -e 
+
+# cleanup
+docker kill $(docker ps -f name=sdc- -qa) || true
+docker rm $(docker ps -f name=sdc- -qa) || true
+docker volume rm $(docker volume ls -f name=sdc- -q) || true
+docker network rm sdc || true
+
 # sdc
 docker network create -d bridge sdc
 
@@ -40,6 +50,24 @@ docker run -d --name sdc-kb \
   -v sdc-logs:/var/lib/jetty/logs \
   dtr.att.dckr.org/onap/sdc-kibana:1.0-STAGING-latest
 
+## sdc-fe
+docker run -d --name sdc-fe \
+  --net sdc \
+  -p 8181:8181 \
+  -p 9443:9443 \
+  -e ENVNAME=AUTO \
+  -e HOST_IP=172.31.4.207 \
+  -v /etc/localtime:/etc/localtime \
+  -v ${HOME}/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
+  -v ${HOME}/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
+  -v ${HOME}/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/sdc-fe/FE_2_setup_configuration.rb:/root/chef-solo/cookbooks/sdc-catalog-fe/recipes/FE_2_setup_configuration.rb \
+  -v sdc-es:/usr/share/elasticsearch/data \
+  -v sdc-logs:/var/lib/jetty/logs \
+  dtr.att.dckr.org/onap/sdc-frontend:1.0-STAGING-latest
+
+echo "Waiting for services to initialize (this is a sad hack)..."
+sleep 30
+
 ## sdc-be
 docker run -d --name sdc-be \
   --net sdc \
@@ -54,17 +82,3 @@ docker run -d --name sdc-be \
   -v sdc-logs:/var/lib/jetty/logs \
   dtr.att.dckr.org/onap/sdc-backend:1.0-STAGING-latest
 
-## sdc-fe
-docker run -it --rm --name sdc-fe \
-  --net sdc \
-  -p 8181:8181 \
-  -p 9443:9443 \
-  -e ENVNAME=AUTO \
-  -e HOST_IP=172.31.4.207 \
-  -v /etc/localtime:/etc/localtime \
-  -v ${HOME}/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
-  -v ${HOME}/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
-  -v ${HOME}/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/sdc-fe/FE_2_setup_configuration.rb:/root/chef-solo/cookbooks/sdc-catalog-fe/recipes/FE_2_setup_configuration.rb \
-  -v sdc-es:/usr/share/elasticsearch/data \
-  -v sdc-logs:/var/lib/jetty/logs \
-  dtr.att.dckr.org/onap/sdc-frontend:1.0-STAGING-latest
