@@ -74,6 +74,7 @@ launch() {
     -e APP_SERVER_AUTH_PASSWORD=OBF:1qvu1v2h1sov1sar1wfw1j7j1wg21saj1sov1v1x1qxw \
     dtr.att.dckr.org/onap/model-loader:1.0-STAGING-latest
   docker network connect onap-sdc model-loader
+  docker network connect onap-message-router model-loader
   docker start model-loader
 }
 
