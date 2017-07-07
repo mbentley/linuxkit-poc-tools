@@ -33,8 +33,8 @@ launch() {
   docker run -d --name sdc-es \
     --label app=sdc \
     --net onap-sdc \
-    -p 9200:9200 \
-    -p 9300:9300 \
+    -p 9200 \
+    -p 9300 \
     -e ENVNAME=AUTO \
     -e HOST_IP=172.31.4.207 \
     -e ES_HEAP_SIZE=1024M \
@@ -49,8 +49,8 @@ launch() {
   docker run -d --name sdc-cs \
     --label app=sdc \
     --net onap-sdc \
-    -p 9042:9042 \
-    -p 9160:9160 \
+    -p 9042 \
+    -p 9160 \
     -e ENVNAME=AUTO \
     -e HOST_IP=172.31.4.207 \
     -e ES_HEAP_SIZE=1024M \
@@ -65,7 +65,7 @@ launch() {
   docker run -d --name sdc-kb \
     --label app=sdc \
     --net onap-sdc \
-    -p 5601:5601 \
+    -p 5601 \
     -e ENVNAME=AUTO \
     -e ELASTICSEARCH_URL=http://sdc-es:9200 \
     -v /etc/localtime:/etc/localtime \
@@ -78,8 +78,8 @@ launch() {
   docker run -d --name sdc-fe \
     --label app=sdc \
     --net onap-sdc \
-    -p 8181:8181 \
-    -p 9443:9443 \
+    -p 8181 \
+    -p 9443 \
     -e ENVNAME=AUTO \
     -e HOST_IP=172.31.4.207 \
     -v /etc/localtime:/etc/localtime \
@@ -98,8 +98,8 @@ launch() {
   docker run -d --name sdc-be \
     --label app=sdc \
     --net onap-sdc \
-    -p 8080:8080 \
-    -p 8443:8443 \
+    -p 8080 \
+    -p 8443 \
     -e ENVNAME=AUTO \
     -e HOST_IP=172.31.4.207 \
     -v /etc/localtime:/etc/localtime \

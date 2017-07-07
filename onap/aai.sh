@@ -31,7 +31,7 @@ launch() {
   docker run -d --name hbase \
     --label app=aai \
     --net onap-aai \
-    -p 8020:8020 \
+    -p 8020 \
     dtr.att.dckr.org/onap/aai-hbase-1.2.3:latest
 
   ## aai
@@ -39,8 +39,8 @@ launch() {
   docker run -d --name aai-service \
     --label app=aai \
     --net onap-aai \
-    -p 8080:8080 \
-    -p 8443:8443 \
+    -p 8080 \
+    -p 8443 \
     -e AAI_REPO_PATH=r/aai \
     -e AAI_CHEF_ENV=simpledemo \
     -e AAI_CHEF_LOC=/var/chef/aai-data/environments \
@@ -59,8 +59,9 @@ launch() {
   docker run -d --name model-loader \
     --label app=aai \
     --net onap-aai \
-    -p 8080:8080 \
-    -p 8443:8443 \
+    --net onap-sdc \
+    -p 8080 \
+    -p 8443 \
     -e DISTR_CLIENT_ASDC_ADDRESS=sdc-be.onap-sdc:8443 \
     -e DISTR_CLIENT_ENVIRONMENT_NAME=OBF:1ks51l8d1o3i1pcc1r2r1e211r391kls1pyj1z7u1njf1lx51go21hnj1y0k1mli1sop1k8o1j651vu91mxw1vun1mze1vv11j8x1k5i1sp11mjc1y161hlr1gm41m111nkj1z781pw31kku1r4p1e391r571pbm1o741l4x1ksp \
     -e APP_SERVER_BASE_URL=https://aai-service.onap-aai:8443 \
