@@ -33,7 +33,7 @@ launch() {
     --label app=robot \
     --net onap-robot \
     -p 88 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/eteshare :/share \
+    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/eteshare:/share \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/robot/aassets:/var/opt/OpenECOMP_ETE/robot/assets \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/robot/resources:/var/opt/OpenECOMP_ETE/robot/resources \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/robot/testsuites:/var/opt/OpenECOMP_ETE/robot/testsuites \
