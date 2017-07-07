@@ -22,11 +22,11 @@ remove() {
 launch() {
   # sdc
   echo -e "\nCreating network..."
-  docker network create --label app=sdc --driver bridge onap-sdc
+  docker network create --label app=sdc --label onap=1 --driver bridge onap-sdc
 
   echo -e "\nCreating volumes..."
-  docker volume create --label app=sdc --driver local sdc-es
-  docker volume create --label app=sdc --driver local sdc-logs
+  docker volume create --label app=sdc --label onap=1 --driver local sdc-es
+  docker volume create --label app=sdc --label onap=1 --driver local sdc-logs
 
   ## sdc-es
   echo -e "\nLaunching sdc-es..."

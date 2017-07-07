@@ -21,10 +21,10 @@ remove() {
 launch() {
   # aai
   echo -e "\nCreating network..."
-  docker network create --label app=aai --driver bridge onap-aai
+  docker network create --label app=aai --label onap=1 --driver bridge onap-aai
 
   echo -e "\nCreating volumes..."
-  docker volume create --label app=aai --driver local aai-logroot
+  docker volume create --label app=aai --label onap=1 --driver local aai-logroot
 
   ## hbase
   echo -e "\nLaunching hbase..."
