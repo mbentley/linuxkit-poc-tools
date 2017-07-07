@@ -31,6 +31,7 @@ launch() {
   ## sdc-es
   echo -e "\nLaunching sdc-es..."
   docker run -d --name sdc-es \
+    --label onap=1 \
     --label app=sdc \
     --net onap-sdc \
     -p 9200 \
@@ -47,6 +48,7 @@ launch() {
   ## sdc-cs
   echo -e "\nLaunching sdc-cs..."
   docker run -d --name sdc-cs \
+    --label onap=1 \
     --label app=sdc \
     --net onap-sdc \
     -p 9042 \
@@ -63,6 +65,7 @@ launch() {
   ## sdc-kb
   echo -e "\nLaunching sdc-kb..."
   docker run -d --name sdc-kb \
+    --label onap=1 \
     --label app=sdc \
     --net onap-sdc \
     -p 5601 \
@@ -76,6 +79,7 @@ launch() {
   ## sdc-fe
   echo -e "\nLaunching sdc-fe..."
   docker run -d --name sdc-fe \
+    --label onap=1 \
     --label app=sdc \
     --net onap-sdc \
     -p 8181 \
@@ -96,6 +100,7 @@ launch() {
   ## sdc-be
   echo -e "\nLaunching sdc-be..."
   docker run -d --name sdc-be \
+    --label onap=1 \
     --label app=sdc \
     --net onap-sdc \
     -p 8080 \

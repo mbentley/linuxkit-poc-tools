@@ -29,6 +29,7 @@ launch() {
   ## hbase
   echo -e "\nLaunching hbase..."
   docker run -d --name hbase \
+    --label onap=1 \
     --label app=aai \
     --net onap-aai \
     -p 8020 \
@@ -37,6 +38,7 @@ launch() {
   ## aai
   echo -e "\nLaunching aai-service..."
   docker run -d --name aai-service \
+    --label onap=1 \
     --label app=aai \
     --net onap-aai \
     -p 8080 \
@@ -57,6 +59,7 @@ launch() {
   ## model-loader
   echo -e "\nLaunching model-loader..."
   docker run -d --name model-loader \
+    --label onap=1 \
     --label app=aai \
     --net onap-aai \
     --net onap-sdc \
