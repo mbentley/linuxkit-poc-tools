@@ -12,11 +12,11 @@ execute() {
 main() {
   case $1 in
     launch)
-      APPS="sdc mso message-router aai"
+      APPS="sdc mso message-router aai robot"
       execute "${1}"
       ;;
     remove)
-      APPS="aai message-router mso sdc"
+      APPS="robot aai message-router mso sdc"
       execute "${1}"
       ;;
     *)
