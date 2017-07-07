@@ -58,11 +58,10 @@ launch() {
 
   ## model-loader
   echo -e "\nLaunching model-loader..."
-  docker run -d --name model-loader \
+  docker create --name model-loader \
     --label onap=1 \
     --label app=aai \
     --net onap-aai \
-    --net onap-sdc \
     -p 8080 \
     -p 8443 \
     -e DISTR_CLIENT_ASDC_ADDRESS=sdc-be.onap-sdc:8443 \
@@ -72,6 +71,8 @@ launch() {
     -e APP_SERVER_AUTH_USER=ModelLoader \
     -e APP_SERVER_AUTH_PASSWORD=OBF:1qvu1v2h1sov1sar1wfw1j7j1wg21saj1sov1v1x1qxw \
     dtr.att.dckr.org/onap/model-loader:1.0-STAGING-latest
+  docker network connect onap-sdc model-loader
+  docker start model-loader
 }
 
 main() {
