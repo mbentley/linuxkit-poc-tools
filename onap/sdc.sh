@@ -94,9 +94,6 @@ launch() {
     -v sdc-logs:/var/lib/jetty/logs \
     dtr.att.dckr.org/onap/sdc-frontend:1.0-STAGING-latest
 
-  echo "Waiting 60 seconds for sdc services to initialize (this is a sad hack)..."
-  sleep 60
-
   ## sdc-be
   echo -e "\nLaunching sdc-be..."
   docker run -d --name sdc-be \
