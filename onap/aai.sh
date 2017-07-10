@@ -50,7 +50,7 @@ launch() {
     -e DEBIAN_FRONTEND=noninteractive \
     -e JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/aai/etc/ssl/certs:/etc/ssl/certs \
-    -v aai-logroot:/opt/aai/logroot \
+    -v aai-logroot:/opt/aai/logroot/AAI \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/aai/aai-config:/var/chef/aai-config \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/aai/aai-data:/var/chef/aai-data \
     dtr.att.dckr.org/onap/ajsc-aai:1.0-STAGING-latest

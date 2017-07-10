@@ -9,9 +9,9 @@ remove() {
   #shellcheck disable=2046
   docker rm $(docker ps -f label=app=message-router -qa) || true
 
-  #echo -e "\nRemoving volumes..."
+  echo -e "\nRemoving volumes..."
   #shellcheck disable=2046
-  #docker volume rm $(docker volume ls -f label=app=message-router -q) || true
+  docker volume rm $(docker volume ls -f label=app=message-router -q) || true
 
   echo -e "\nRemoving networks..."
   #shellcheck disable=2046
@@ -23,8 +23,8 @@ launch() {
   echo -e "\nCreating network..."
   docker network create --label app=message-router --label onap=1 --driver bridge onap-message-router
 
-  #echo -e "\nCreating volumes..."
-  #docker volume create --label app=message-router --label onap=1 --driver local aai-logroot
+  echo -e "\nCreating volumes..."
+  docker volume create --label app=message-router --label onap=1 --driver local message-router-zk-conf
 
   ## zookeeper
   echo -e "\nLaunching zookeeper..."
@@ -34,6 +34,7 @@ launch() {
     --net onap-message-router \
     -p 2181 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dcae-startup-vm-message-router/docker_files/data-zookeeper:/opt/zookeeper-3.4.9/data \
+    -v message-router-zk-conf:/opt/zookeeper-3.4.9/conf \
     dtr.att.dckr.org/onap/zookeeper:latest
 
   ## global-kafka

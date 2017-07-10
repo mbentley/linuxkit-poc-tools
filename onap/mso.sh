@@ -9,9 +9,9 @@ remove() {
   #shellcheck disable=2046
   docker rm $(docker ps -f label=app=mso -qa) || true
 
-  #echo -e "\nRemoving volumes..."
+  echo -e "\nRemoving volumes..."
   #shellcheck disable=2046
-  #docker volume rm $(docker volume ls -f label=app=mso -q) || true
+  docker volume rm $(docker volume ls -f label=app=mso -q) || true
 
   echo -e "\nRemoving networks..."
   #shellcheck disable=2046
@@ -23,8 +23,8 @@ launch() {
   echo -e "\nCreating network..."
   docker network create --label app=mso --label onap=1 --driver bridge onap-mso
 
-  #echo -e "\nCreating volumes..."
-  #docker volume create --label app=mso --label onap=1 --driver local aai-logroot
+  echo -e "\nCreating volumes..."
+  docker volume create --label app=mso --label onap=1 --driver local mso-mariadb
 
   ## mariadb
   echo -e "\nLaunching mariadb..."
@@ -38,6 +38,7 @@ launch() {
     -e MARIADB_VERSION="10.1.11+maria-1~jessie" \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/mariadb/conf.d:/etc/mysql/conf.d \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d \
+    -v mso-mariadb:/var/lib/mysql \
     dtr.att.dckr.org/onap/mariadb:10.1.11
 
   ## mso
