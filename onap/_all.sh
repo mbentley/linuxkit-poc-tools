@@ -5,7 +5,9 @@ set -e
 execute() {
   for APP in ${APPS}
   do
+    echo "Executing '${1}' for ${APP}..."
     "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/"${APP}".sh "${1}"
+    echo -e "done.\n"
   done
 }
 
