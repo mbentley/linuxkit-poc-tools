@@ -21,10 +21,10 @@ remove() {
 launch() {
   # appc
   echo -e "\nCreating network..."
-  docker network create --label app=appc --label onap=1 --driver bridge onap-sdnc
+  docker network create --label app=appc --label onap=1 --driver bridge onap-appc
 
   echo -e "\nCreating volumes..."
-  docker volume create --label app=appc --label onap=1 --driver local sdnc-data
+  docker volume create --label app=appc --label onap=1 --driver local appc-data
 
   ## appc-dbhost
   echo -e "\nLaunching appc-dbhost..."
