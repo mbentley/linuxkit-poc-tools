@@ -28,6 +28,9 @@ launch() {
   docker volume create --label app=sdc --label onap=1 --driver local sdc-es
   docker volume create --label app=sdc --label onap=1 --driver local sdc-logs
 
+  echo -e "\nSetting volume permissions for Jetty..."
+  chown -R 999:999 "$(docker volume inspect --format '{{.Mountpoint}}' sdc-logs)"
+
   ## sdc-es
   echo -e "\nLaunching sdc-es..."
   docker run -d --name sdc-es \
@@ -96,7 +99,7 @@ launch() {
 
   ## sdc-be
   echo -e "\nLaunching sdc-be..."
-  docker run -d --name sdc-be \
+  docker create --name sdc-be \
     --label onap=1 \
     --label app=sdc \
     --net onap-sdc \
@@ -110,7 +113,10 @@ launch() {
     -v sdc-es:/usr/share/elasticsearch/data \
     -v sdc-logs:/var/lib/jetty/logs \
     dtr.att.dckr.org/onap/sdc-backend:1.0-STAGING-latest
-    #-e HOST_IP=172.31.4.207 \
+  docker network connect message-router sdc-be
+  docker start dc-be
+
+  #-e HOST_IP=172.31.4.207 \
 }
 
 main() {

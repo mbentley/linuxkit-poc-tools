@@ -57,7 +57,6 @@ launch() {
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dcae-startup-vm-message-router/docker_files/start-kafka.sh:/start-kafka.sh \
     -v /var/run/docker.sock:/var/run/docker.sock \
     dtr.att.dckr.org/onap/kafka:latest
-    #-v message-router-data-kafka:/kafka \
 
   ## dmaap
   echo -e "\nLaunching dmaap..."
