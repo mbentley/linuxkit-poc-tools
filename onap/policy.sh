@@ -23,8 +23,8 @@ launch() {
   echo -e "\nCreating network..."
   docker network create --label app=policy --label onap=1 --driver bridge onap-policy
 
-  #echo -e "\nCreating volumes..."
-  #docker volume create --label app=policy --label onap=1 --driver local policy-data
+  echo -e "\nCreating volumes..."
+  docker volume create --label app=policy --label onap=1 --driver local policy-data
 
   ## policy-dbhost
   echo -e "\nLaunching mariadb..."
