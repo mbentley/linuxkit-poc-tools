@@ -52,7 +52,7 @@ launch() {
     -e SDNC_CONFIG_DIR=/opt/openecomp/appc/data/properties \
     -e APPC_CONFIG_DIR=/opt/openecomp/appc/data/properties \
     dtr.att.dckr.org/onap/dgbuilder-sdnc-image:1.0-STAGING-latest
-      /bin/bash -c 'cd /opt/openecomp/appc/dgbuilder/ && ./start sdnc1.0 && wait'
+      /bin/bash -c 'cd /opt/openecomp/sdnc/dgbuilder/ && ./start sdnc1.0 && wait'
 
   ## appc
   echo -e "\nLaunching appc-controller-container..."
