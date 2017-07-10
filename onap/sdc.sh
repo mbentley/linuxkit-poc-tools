@@ -114,7 +114,7 @@ launch() {
     -v sdc-logs:/var/lib/jetty/logs \
     dtr.att.dckr.org/onap/sdc-backend:1.0-STAGING-latest
   docker network connect message-router sdc-be
-  docker start dc-be
+  docker start sdc-be
 
   #-e HOST_IP=172.31.4.207 \
 }
