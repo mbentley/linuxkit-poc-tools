@@ -43,7 +43,7 @@ launch() {
 
   ## appc-dgbuilder-container
   echo -e "\nLaunching appc-dgbuilder-container..."
-  docker run -d --name appc-dgbuilder-container \
+  docker run -td --name appc-dgbuilder-container \
     --label onap=1 \
     --label app=appc \
     --net onap-appc \
@@ -51,7 +51,7 @@ launch() {
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/appc/data/properties \
     -e APPC_CONFIG_DIR=/opt/openecomp/appc/data/properties \
-    dtr.att.dckr.org/onap/dgbuilder-sdnc-image:1.0-STAGING-latest
+    dtr.att.dckr.org/onap/dgbuilder-sdnc-image:1.0-STAGING-latest \
       /bin/bash -c 'cd /opt/openecomp/sdnc/dgbuilder/ && ./start sdnc1.0 && wait'
 
   ## appc
