@@ -43,7 +43,7 @@ launch() {
 
   ## sdnc-dgbuilder-container
   echo -e "\nLaunching sdnc-dgbuilder-container..."
-  docker run -d --name sdnc-dgbuilder-container \
+  docker run -td --name sdnc-dgbuilder-container \
     --label onap=1 \
     --label app=sdnc \
     --net onap-sdnc \
