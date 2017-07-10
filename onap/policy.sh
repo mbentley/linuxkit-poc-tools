@@ -27,11 +27,12 @@ launch() {
   docker volume create --label app=policy --label onap=1 --driver local policy-data
 
   ## policy-dbhost
-  echo -e "\nLaunching mariadb..."
-  docker run -d --name mariadb \
+  echo -e "\nLaunching policy-mariadb..."
+  docker run -d --name policy-mariadb \
     --label onap=1 \
     --label app=policy \
     --net onap-policy \
+    --network-alias mariadb \
     -p 3306 \
     -v policy-data:/var/lib/mysql \
     dtr.att.dckr.org/onap/policy-db:1.0-STAGING-latest \
