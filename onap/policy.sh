@@ -25,6 +25,8 @@ launch() {
 
   echo -e "\nCreating volumes..."
   docker volume create --label app=policy --label onap=1 --driver local policy-data
+  docker volume create --label app=policy --label onap=1 --driver local policy-data2
+  docker volume create --label app=policy --label onap=1 --driver local nexus-data
 
   ## policy-dbhost
   echo -e "\nLaunching policy-mariadb..."
@@ -35,6 +37,7 @@ launch() {
     --network-alias mariadb \
     -p 3306 \
     -v policy-data:/var/lib/mysql \
+    -v policy-data2:/etc/mysql \
     dtr.att.dckr.org/onap/policy-db:1.0-STAGING-latest \
       /bin/bash -c 'exec bash /tmp/do-start.sh'
 
@@ -45,8 +48,9 @@ launch() {
     --label app=policy \
     --net onap-policy \
     -p 8081 \
+    -v nexus-data:/opt/nexus/sonatype-work \
     dtr.att.dckr.org/onap/policy-nexus:1.0-STAGING-latest \
-      /bin/bash -c '/opt/nexus/nexus-2.14.2-01/bin/nexus start && wait'
+      /bin/bash -c '/opt/nexus/nexus-2.14.2-01/bin/nexus start && sleep infinity'
 
   ## drools
   echo -e "\nLaunching drools..."
