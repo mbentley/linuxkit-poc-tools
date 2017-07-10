@@ -106,13 +106,14 @@ launch() {
     -p 8080 \
     -p 8443 \
     -e ENVNAME=AUTO \
-    -e HOST_IP=172.31.4.207 \
+    -e HOST_IP=127.0.0.1 \
     -v /etc/localtime:/etc/localtime \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
     -v sdc-es:/usr/share/elasticsearch/data \
     -v sdc-logs:/var/lib/jetty/logs \
     dtr.att.dckr.org/onap/sdc-backend:1.0-STAGING-latest
+    #-e HOST_IP=172.31.4.207 \
 }
 
 main() {
