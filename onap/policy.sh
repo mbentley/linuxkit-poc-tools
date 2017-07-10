@@ -74,7 +74,7 @@ launch() {
     -p 9091 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
     dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
-      /bin/bash ./do-start.sh pap
+      pap
 
   ## pdp
   echo -e "\nLaunching pdp..."
@@ -85,7 +85,7 @@ launch() {
     -p 8081 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
     dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
-      /bin/bash ./do-start.sh pdp
+      pdp
 
   ## pypdp
   echo -e "\nLaunching pypdp..."
@@ -96,7 +96,7 @@ launch() {
     -p 8480 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
     dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
-      /bin/bash ./do-start.sh pypdp
+      pypdp
 
   ## brmsgw
   echo -e "\nLaunching brmsgw..."
@@ -107,7 +107,7 @@ launch() {
     -p 9989 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
     dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
-      /bin/bash ./do-start.sh brmsgw
+      brmsgw
 }
 
 main() {
