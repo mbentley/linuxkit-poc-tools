@@ -32,6 +32,7 @@ launch() {
     --label onap=1 \
     --label app=sdnc \
     --net onap-sdnc \
+    --network-alias dbhost \
     -p 3306 \
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e MYSQL_ROOT_HOST='%' \
