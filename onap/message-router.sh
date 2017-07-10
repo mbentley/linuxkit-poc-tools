@@ -25,6 +25,7 @@ launch() {
 
   echo -e "\nCreating volumes..."
   docker volume create --label app=message-router --label onap=1 --driver local message-router-zk-conf
+  docker volume create --label app=message-router --label onap=1 --driver local message-router-data-kafka
 
   ## zookeeper
   echo -e "\nLaunching zookeeper..."
@@ -49,10 +50,11 @@ launch() {
     -e KAFKA_BROKER_ID=1 \
     -e KAFKA_ADVERTISED_PORT=9092 \
     -e KAFKA_PORT=9092 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dcae-startup-vm-message-router/docker_files/data-kafka:/kafka \
+    -v message-router-data-kafka:/kafka \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dcae-startup-vm-message-router/docker_files/start-kafka.sh:/start-kafka.sh \
     -v /var/run/docker.sock:/var/run/docker.sock \
     dtr.att.dckr.org/onap/kafka:latest
+    #-v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dcae-startup-vm-message-router/docker_files/data-kafka:/kafka \
 
   ## dmaap
   echo -e "\nLaunching dmaap..."
