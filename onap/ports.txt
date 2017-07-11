@@ -1,0 +1,68 @@
+message-router
+ - zookeeper    2181
+ - kafka        9092
+ - dmaap        3904 -> 30227
+                3905 -> 30226
+
+sdc
+ - sdc-es       9200
+                9300
+ - sdc-cs       9042
+                9160
+ - sdc-kb       5601
+ - sdc-be       8443 -> 30204
+                8080 -> 30205
+ - sdc-fe       9443 -> 30207
+                8181 -> 30206
+
+mso
+ - mariadb      3306 -> 30252
+ - mso          8080 -> 30223
+                3904 -> 30225
+                3905 -> 30224
+                9990 -> 30222
+                8787 -> 30250
+
+aai
+ - hbase        8020
+ - aai-service  8443 -> 30233
+                8080 -> 30232
+ - model-loader 8443 -> 30229
+                8080 -> 30210
+
+robot
+ - robot        88 -> 30209
+
+portal
+ - portaldb     3306
+ - portalapps   8006 -> 30213
+                8010 -> 30214
+                8989 -> 30215
+ - vnc-portal   6080 -> 30211
+                5900 -> 30212
+
+vid
+ - vid-mariadb  3306
+ - vid-server   8080 -> 30200
+
+sdnc
+ - sdnc-dbhost  3306
+ - dgbuilder    3000 -> 30203
+ - sdnc         8282 -> 30202
+ - sdnc-portal  8843 -> 30201
+
+policy
+ - mariadb      3306
+ - nexus        8081
+ - drools       6969 -> 30217
+ - pap          8443 -> 30219
+                9091 -> 30218
+ - pdp          8081 -> 30220
+ - pypdp        8480 -> 30221
+ - brmsgw       9989 -> 30216
+
+appc
+ - dbhost       3306
+ - sdnhost      8282 -> 30230
+                1830 -> 30231
+ - dgbuilder    3000 -> 30228
