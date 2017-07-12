@@ -54,13 +54,13 @@ launch() {
     -e ASDC_CLIENT_REST_PORT=8080 \
     -e VID_AAI_HOST=aai-service.onap-aai \
     -e VID_AAI_PORT=8443 \
-    -e VID_ECOMP_SHARED_CONTEXT_REST_URL=http://portalapps.onap-portal:8989/ECOMPPORTAL/context \
+    -e VID_ECOMP_SHARED_CONTEXT_REST_URL=http://portal.api.simpledemo.openecomp.org:8989/ECOMPPORTAL/context \
     -e VID_MSO_SERVER_URL=http://mso.onap-mso:8080 \
     -e VID_MSO_PASS=51515201a8d4c5c08d533db9bd1e1a9b \
     -e MSO_DME2_SERVER_URL=http://localhost:8081 \
     -e MSO_DME2_ENABLED=false \
-    -e VID_ECOMP_REDIRECT_URL=http://portalapps.onap-portal:8989/ECOMPPORTAL/login.htm \
-    -e VID_ECOMP_REST_URL=http://portalapps.onap-portal:8989/ECOMPPORTAL/auxapi \
+    -e VID_ECOMP_REDIRECT_URL=http://portal.api.simpledemo.openecomp.org:8989/ECOMPPORTAL/login.htm \
+    -e VID_ECOMP_REST_URL=http://portal.api.simpledemo.openecomp.org:8989/ECOMPPORTAL/auxapi \
     -e VID_CONTACT_US_LINK=https://todo_contact_us_link.com \
     -e VID_UEB_URL_LIST=dmaap.onap-message-router \
     -e VID_MYSQL_HOST=vid-mariadb \
