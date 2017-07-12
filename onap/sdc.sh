@@ -85,7 +85,7 @@ launch() {
     --label onap=1 \
     --label app=sdc \
     --net onap-sdc \
-    -p 30206:8181 \
+    -p 8181:8181 \
     -p 30207:9443 \
     -e ENVNAME=AUTO \
     -e HOST_IP=172.31.4.207 \
