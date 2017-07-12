@@ -47,7 +47,7 @@ launch() {
     --label onap=1 \
     --label app=appc \
     --net onap-appc \
-    -p 3100 \
+    -p 3100:30228 \
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/appc/data/properties \
     -e APPC_CONFIG_DIR=/opt/openecomp/appc/data/properties \
@@ -60,8 +60,8 @@ launch() {
     --label onap=1 \
     --label app=appc \
     --net onap-appc \
-    -p 8181 \
-    -p 1830 \
+    -p 8181:30230 \
+    -p 1830:30231 \
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/appc/data/properties \
     -e APPC_CONFIG_DIR=/opt/openecomp/appc/data/properties \

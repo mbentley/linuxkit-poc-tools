@@ -48,7 +48,7 @@ launch() {
     --label onap=1 \
     --label app=vid \
     --net onap-vid \
-    -p 8080 \
+    -p 8080:30200 \
     -e ASDC_CLIENT_REST_HOST=sdc-be.onap-sdc \
     -e ASDC_CLIENT_REST_AUTH="Basic dmlkOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU=" \
     -e ASDC_CLIENT_REST_PORT=8080 \

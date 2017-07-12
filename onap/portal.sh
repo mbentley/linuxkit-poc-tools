@@ -47,9 +47,9 @@ launch() {
     --label onap=1 \
     --label app=portal \
     --net onap-portal \
-    -p 8005 \
-    -p 8009 \
-    -p 8080 \
+    -p 8005:30213 \
+    -p 8009:30214 \
+    -p 8080:30215 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/fusion.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/fusion/conf/fusion.properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/openid-connect.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/classes/openid-connect.properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/system.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/conf/system.properties \

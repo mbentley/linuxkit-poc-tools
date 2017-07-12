@@ -47,7 +47,7 @@ launch() {
     --label onap=1 \
     --label app=sdnc \
     --net onap-sdnc \
-    -p 3100 \
+    -p 3100:30203 \
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/sdnc/data/properties \
     dtr.att.dckr.org/onap/dgbuilder-sdnc-image:1.0-STAGING-latest \
@@ -59,7 +59,7 @@ launch() {
     --label onap=1 \
     --label app=sdnc \
     --net onap-sdnc \
-    -p 8181 \
+    -p 8181:30202 \
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/sdnc/data/properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdnc/conf:/opt/openecomp/sdnc/data/properties \
@@ -72,7 +72,7 @@ launch() {
     --label onap=1 \
     --label app=sdnc \
     --net onap-sdnc \
-    -p 8843 \
+    -p 8843:30201 \
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/sdnc/data/properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdnc/conf:/opt/openecomp/sdnc/data/properties \

@@ -41,8 +41,8 @@ launch() {
     --label onap=1 \
     --label app=aai \
     --net onap-aai \
-    -p 8080 \
-    -p 8443 \
+    -p 8080:30232 \
+    -p 8443:30233 \
     -e AAI_REPO_PATH=r/aai \
     -e AAI_CHEF_ENV=simpledemo \
     -e AAI_CHEF_LOC=/var/chef/aai-data/environments \
@@ -62,8 +62,8 @@ launch() {
     --label onap=1 \
     --label app=aai \
     --net onap-aai \
-    -p 8080 \
-    -p 8443 \
+    -p 8080:30210 \
+    -p 8443:30229 \
     -e DISTR_CLIENT_ASDC_ADDRESS=sdc-be.onap-sdc:8443 \
     -e DISTR_CLIENT_ENVIRONMENT_NAME=AUTO \
     -e DISTR_CLIENT_USER=aai \

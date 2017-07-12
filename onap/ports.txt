@@ -35,11 +35,12 @@ robot
 
 portal
  - portaldb     3306
- - portalapps   8006 -> 30213
-                8010 -> 30214
-                8989 -> 30215
+ - portalapps   8005 -> 30213
+                8009 -> 30214
+                8080 -> 30215
  - vnc-portal   6080 -> 30211
                 5900 -> 30212
+  (note: this aren't exposed via the yaml)
 
 vid
  - vid-mariadb  3306
@@ -47,8 +48,8 @@ vid
 
 sdnc
  - sdnc-dbhost  3306
- - dgbuilder    3000 -> 30203
- - sdnc         8282 -> 30202
+ - dgbuilder    3100 -> 30203
+ - sdnc         8181 -> 30202
  - sdnc-portal  8843 -> 30201
 
 policy
@@ -63,6 +64,6 @@ policy
 
 appc
  - dbhost       3306
- - sdnhost      8282 -> 30230
+ - sdnhost      8181 -> 30230
                 1830 -> 30231
- - dgbuilder    3000 -> 30228
+ - dgbuilder    3100 -> 30228
