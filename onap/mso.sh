@@ -32,7 +32,7 @@ launch() {
     --label onap=1 \
     --label app=mso \
     --net onap-mso \
-    -p 3306:30252 \
+    -p 30252:3306 \
     -e MYSQL_ROOT_PASSWORD=password \
     -e MARIADB_MAJOR="10.1" \
     -e MARIADB_VERSION="10.1.11+maria-1~jessie" \
@@ -47,11 +47,11 @@ launch() {
     --label onap=1 \
     --label app=mso \
     --net onap-mso \
-    -p 3904:30225 \
-    -p 3905:30224 \
-    -p 8080:30223 \
-    -p 9990:30222 \
-    -p 8787:30250 \
+    -p 30225:3904 \
+    -p 30224:3905 \
+    -p 30223:8080 \
+    -p 30222:9990 \
+    -p 30250:8787 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/mso:/shared \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/docker-files:/docker-files \
     dtr.att.dckr.org/onap/mso:1.0-STAGING-latest \

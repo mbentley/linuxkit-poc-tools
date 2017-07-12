@@ -64,8 +64,8 @@ launch() {
     --label onap=1 \
     --label app=message-router \
     --net onap-message-router \
-    -p 3904:30227 \
-    -p 3905:30226 \
+    -p 30227:3904 \
+    -p 30226:3095 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dmaap/MsgRtrApi.properties:/appl/dmaapMR1/bundleconfig/etc/appprops/MsgRtrApi.properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dmaap/cadi.properties:/appl/dmaapMR1/etc/cadi.properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dmaap/mykey:/appl/dmaapMR1/etc/keyfile \

@@ -58,7 +58,7 @@ launch() {
     --label onap=1 \
     --label app=policy \
     --net onap-policy \
-    -p 6969:30217 \
+    -p 30217:6969 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/drools/settings.xml:/usr/share/maven/conf/settings.xml \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/drools:/tmp/policy-install/config \
     dtr.att.dckr.org/onap/policy-drools:1.0-STAGING-latest \
@@ -70,8 +70,8 @@ launch() {
     --label onap=1 \
     --label app=policy \
     --net onap-policy \
-    -p 8443:30219 \
-    -p 9091:30218 \
+    -p 30219:8443 \
+    -p 30218:9091 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
     dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
       pap
@@ -82,7 +82,7 @@ launch() {
     --label onap=1 \
     --label app=policy \
     --net onap-policy \
-    -p 8081:30220 \
+    -p 30220:8081 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
     dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
       pdp
@@ -93,7 +93,7 @@ launch() {
     --label onap=1 \
     --label app=policy \
     --net onap-policy \
-    -p 8480:30221 \
+    -p 30221:8480 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
     dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
       pypdp
@@ -104,7 +104,7 @@ launch() {
     --label onap=1 \
     --label app=policy \
     --net onap-policy \
-    -p 9989:30216 \
+    -p 30216:9989 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
     dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
       brmsgw

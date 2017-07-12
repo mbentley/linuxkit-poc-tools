@@ -85,8 +85,8 @@ launch() {
     --label onap=1 \
     --label app=sdc \
     --net onap-sdc \
-    -p 8181:30206 \
-    -p 9443:30207 \
+    -p 30206:8181 \
+    -p 30207:9443 \
     -e ENVNAME=AUTO \
     -e HOST_IP=172.31.4.207 \
     -v /etc/localtime:/etc/localtime \
@@ -103,8 +103,8 @@ launch() {
     --label onap=1 \
     --label app=sdc \
     --net onap-sdc \
-    -p 8080:30205 \
-    -p 8443:30204 \
+    -p 30205:8080 \
+    -p 30204:8443 \
     -e ENVNAME=AUTO \
     -e HOST_IP=127.0.0.1 \
     -v /etc/localtime:/etc/localtime \
