@@ -37,7 +37,7 @@ portal
  - portaldb     3306
  - portalapps   8005 -> 30213
                 8009 -> 30214
-                8080 -> 30215
+                8080 -> 30215 (this doesn't work, must be hardcoded to: 8080 -> 8989)
  - vnc-portal   6080 -> 30211
                 5900 -> 30212
   (note: this aren't exposed via the yaml)
