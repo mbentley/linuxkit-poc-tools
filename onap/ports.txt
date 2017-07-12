@@ -56,7 +56,7 @@ policy
  - mariadb      3306
  - nexus        8081
  - drools       6969 -> 30217
- - pap          8443 -> 30219
+ - pap          8443 -> 30219 (this looks like it will also need to eb hardcoded to 8443)
                 9091 -> 30218
  - pdp          8081 -> 30220
  - pypdp        8480 -> 30221

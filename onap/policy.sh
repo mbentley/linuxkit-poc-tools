@@ -70,7 +70,7 @@ launch() {
     --label onap=1 \
     --label app=policy \
     --net onap-policy \
-    -p 30219:8443 \
+    -p 8443:8443 \
     -p 30218:9091 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
     dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
