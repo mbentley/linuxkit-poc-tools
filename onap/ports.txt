@@ -13,7 +13,7 @@ sdc
  - sdc-be       8443 -> 30204
                 8080 -> 30205
  - sdc-fe       9443 -> 30207
-                8181 -> 30206
+                8181 -> 30206 (hardcoded to 8181)
 
 mso
  - mariadb      3306 -> 30252
@@ -37,14 +37,14 @@ portal
  - portaldb     3306
  - portalapps   8005 -> 30213
                 8009 -> 30214
-                8080 -> 30215 (this doesn't work, must be hardcoded to: 8080 -> 8989)
+                8080 -> 30215 (hardcoded to 8080)
  - vnc-portal   6080 -> 30211
                 5900 -> 30212
   (note: this aren't exposed via the yaml)
 
 vid
  - vid-mariadb  3306
- - vid-server   8080 -> 30200
+ - vid-server   8080 -> 30200 (hardcoded to 8080)
 
 sdnc
  - sdnc-dbhost  3306
@@ -56,7 +56,7 @@ policy
  - mariadb      3306
  - nexus        8081
  - drools       6969 -> 30217
- - pap          8443 -> 30219 (this looks like it will also need to eb hardcoded to 8443)
+ - pap          8443 -> 30219 (hardcoded to 8443)
                 9091 -> 30218
  - pdp          8081 -> 30220
  - pypdp        8480 -> 30221
