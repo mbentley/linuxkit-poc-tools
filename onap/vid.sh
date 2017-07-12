@@ -34,7 +34,7 @@ launch() {
     --net onap-vid \
     -p 3306 \
     -e MYSQL_DATABASE=vid_openecomp \
-    -e MYSQL_USER=MYSQL_USER \
+    -e MYSQL_USER=vidadmin \
     -e MYSQL_PASSWORD=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U \
     -e MYSQL_ROOT_PASSWORD=LF+tp_1WqgSY \
     -v vid-mariadb-data:/var/lib/mysql \
