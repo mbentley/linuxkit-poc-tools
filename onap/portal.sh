@@ -71,6 +71,11 @@ launch() {
     --label app=portal \
     --net onap-portal \
     --privileged \
+    --add-host sdc.api.simpledemo.openecomp.org:172.31.4.207 \
+    --add-host portal.api.simpledemo.openecomp.org:172.31.4.207 \
+    --add-host policy.api.simpledemo.openecomp.org:172.31.4.207 \
+    --add-host sdc.ui.simpledemo.openecomp.org:172.31.4.207 \
+    --add-host vid.api.simpledemo.openecomp.org:172.31.4.207 \
     -e VNC_PASSWORD=password \
     -v portal-ubuntu-init:/ubuntu-init \
     dtr.att.dckr.org/onap/ubuntu-desktop-lxde-vnc:latest
