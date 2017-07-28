@@ -10,6 +10,14 @@ help:   ## Show this help
 build:	## Build the project LinuxKit image
 	moby build $(PROJECT).yml
 
+images:	## Build Docker images for ONAP launch and OOM clone
+	docker build -f onap/Dockerfile.launch -t dtr.att.dckr.org/services/onaplaunch:latest onap
+	docker build -f onap/Dockerfile.oom -t dtr.att.dckr.org/services/oomclone:latest onap
+
+push:	## Push Docker images for ONAP launch and OOM clone to DTR
+	docker push dtr.att.dckr.org/services/onaplaunch:latest
+	docker push dtr.att.dckr.org/services/oomclone:latest
+
 run:	## Run the project LinuxKit image
 	linuxkit run $(PROJECT)
 
