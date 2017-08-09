@@ -16,15 +16,17 @@ onboot:
   - name: mount
     image: linuxkit/mount:4fe245efb01384e42622c36302e13e386bbaeb08
     command: ["/usr/bin/mountie", "/var/lib/docker"]
+  - name: metadata
+    image: linuxkit/metadata:cec86f3e1c260c9eafefa80c262fceb40c182ddf
 services:
   - name: sshd
     image: linuxkit/sshd:505a985d7bd7a90f15eca9cb4dc6ec92789d51a0
     binds:
      - /root/.ssh/authorized_keys:/root/.ssh/authorized_keys
-  - name: getty
-    image: linuxkit/getty:797cb79e0a229fcd16ebf44a0da74bcec03968ec
-    env:
-     - INSECURE=true
+#  - name: getty
+#    image: linuxkit/getty:797cb79e0a229fcd16ebf44a0da74bcec03968ec
+#    env:
+#     - INSECURE=true
   - name: rngd
     image: linuxkit/rngd:558e86a36242bb74353bc9287b715ddb8567357e
   - name: dhcpcd
@@ -46,10 +48,10 @@ services:
      - /etc/docker/daemon.json:/etc/docker/daemon.json
      - /var/run:/var/run
     command: ["/usr/local/bin/docker-init", "/usr/local/bin/dockerd"]
-#  - name: onaplaunch
-#    image: dtr.att.dckr.org/services/onaplaunch:latest
-#    binds:
-#     - /var/run:/var/run
+  - name: onaplaunch
+    image: dtr.att.dckr.org/services/onaplaunch:latest
+    binds:
+     - /var/run:/var/run
 files:
   - path: var/lib/docker
     directory: true
