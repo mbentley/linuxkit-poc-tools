@@ -4,4 +4,4 @@ MAINTAINER Matt Bentley <matt@docker.com>
 RUN apk add --no-cache git
 
 ENTRYPOINT [""]
-CMD ["git","clone","--depth","1","https://gerrit.onap.org/r/p/oom.git","/root/git/oom"]
+CMD ["git","clone","--depth","1","https://gerrit.onap.org/r/p/oom.git","/root/git/gerrit.onap.org/oom"]
