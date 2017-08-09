@@ -1,36 +1,32 @@
 kernel:
-  image: linuxkit/kernel:4.9.39
-  cmdline: "console=tty0 console=ttyS0"
+  image: linuxkit/kernel:4.9.41
+  cmdline: "console=tty0 console=ttyS0 console=ttyAMA0"
 init:
-  - linuxkit/init:4dcee04c04c900a5796dc719f8d16fea7e771059
-  - linuxkit/runc:f5960b83a8766ae083efc744fa63dbf877450e4f
-  - linuxkit/containerd:acd23f7c020e09799e03331e781f35965e19981f
-  - linuxkit/ca-certificates:67acf038c44bb191ebb704ec7bb39a1524052cdf
+  - linuxkit/init:c7d651da1a5e308c757bc61ce6a41804ea843426
+  - linuxkit/runc:2d645aca4eee8d0d1f121177f1b696244219d250
+  - linuxkit/containerd:f69bc5b8ec0392e2d34d3fd3bfdb7266ef6d4ed4
+  - linuxkit/ca-certificates:e44b0a66df5a102c0e220f0066b0d904710dcb10
 onboot:
   - name: sysctl
-    image: linuxkit/sysctl:d1a43c7c91e92374766f962dc8534cf9508756b0
+    image: linuxkit/sysctl:154913b72c6f1f33eb408609fca9963628e8c051
   - name: sysfs
-    image: linuxkit/sysfs:006a65b30cfdd9d751d7ab042fde7eca2c3bc9dc
-  - name: dhcpcd
-    image: linuxkit/dhcpcd:17423c1ccced74e3c005fd80486e8177841fe02b
-    command: ["/sbin/dhcpcd", "--nobackground", "-f", "/dhcpcd.conf", "-1"]
-  - name: binfmt
-    image: linuxkit/binfmt:0bde4ebd422099f45c5ee03217413523ad2223e5
+    image: linuxkit/sysfs:3ae01a25583ee37a5ff8b09a0e569cb4bd8cf2e9
   - name: format
-    image: linuxkit/format:efafddf9bc6165b5efaf09c532c15a1100a10e61
+    image: linuxkit/format:158d992b7bf7ab984100c697d7e72161ea7d7382
   - name: mount
-    image: linuxkit/mount:54990a6a69cb3ead4da8a9c1f0b651e27aea8d3f
+    image: linuxkit/mount:4fe245efb01384e42622c36302e13e386bbaeb08
     command: ["/usr/bin/mountie", "/var/lib/docker"]
 services:
-  # getty used for testing only
   - name: getty
-    image: linuxkit/getty:894eef1e5f62f3bc31de8ffaff2b6c0e093c4595
+    image: linuxkit/getty:797cb79e0a229fcd16ebf44a0da74bcec03968ec
     env:
      - INSECURE=true
   - name: rngd
-    image: linuxkit/rngd:1516d5d70683a5d925fe475eb1b6164a2f67ac3b
+    image: linuxkit/rngd:558e86a36242bb74353bc9287b715ddb8567357e
+  - name: dhcpcd
+    image: linuxkit/dhcpcd:f3f5413abb78fae9020e35bd4788fa93df4530b7
   - name: ntpd
-    image: linuxkit/openntpd:2874b66c9fa51fa5b4d11c8b50441eb94ee22a5a
+    image: linuxkit/openntpd:0d7befc79842849d0b88d6c3b64200e340d7cf67
   - name: docker
     image: docker:17.06.0-ce-dind
     capabilities:
@@ -42,19 +38,20 @@ services:
     binds:
      - /etc/resolv.conf:/etc/resolv.conf
      - /var/lib/docker:/var/lib/docker
+     - /lib/modules:/lib/modules
+     - /etc/docker/daemon.json:/etc/docker/daemon.json
+     - /var/run:/var/run
     command: ["/usr/local/bin/docker-init", "/usr/local/bin/dockerd"]
-  - name: compose
-    image: linuxkitprojects/compose:0535e78608f57702745dfd56fbe78d28d237e469
+  - name: onaplaunch
+    image: dtr.att.dckr.org/services/onaplaunch:latest
     binds:
      - /var/run:/var/run
-     - /var/compose:/compose
 files:
-  - path: var/html/a/index.html
-    source: html-a.html
-  - path: var/html/b/index.html
-    source: html-b.html
-  - path: var/compose/docker-compose.yml
-    source: docker-compose.yml
+  - path: var/lib/docker
+    directory: true
+  - path: etc/docker/daemon.json
+    contents: '{"debug": true}'
 trust:
   org:
     - linuxkit
+    - library

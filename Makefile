@@ -5,14 +5,14 @@ PID = `cat $(PROJECT)-state/hyperkit.pid`
 all: help
 
 help:   ## Show this help
-	        @fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 build:	## Build the project LinuxKit image
 	moby build $(PROJECT).yml
 
 images:	## Build Docker images for ONAP launch and OOM clone
-	docker build -f onap/Dockerfile.launch -t dtr.att.dckr.org/services/onaplaunch:latest onap
-	docker build -f onap/Dockerfile.oom -t dtr.att.dckr.org/services/oomclone:latest onap
+	docker build -f onaplaunch/Dockerfile.launch -t dtr.att.dckr.org/services/onaplaunch:latest onaplaunch
+	docker build -f oomclone/Dockerfile.oom -t dtr.att.dckr.org/services/oomclone:latest oomclone
 
 push:	## Push Docker images for ONAP launch and OOM clone to DTR
 	docker push dtr.att.dckr.org/services/onaplaunch:latest
@@ -23,6 +23,7 @@ run:	## Run the project LinuxKit image
 
 kill:	## Kill the project instance
 	kill -9 $(PID)
+	rm $(PROJECT)-state/hyperkit.pid
 
 rm:	## Remove the project state
 	rm -rf $(PROJECT)-state

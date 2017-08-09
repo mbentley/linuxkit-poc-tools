@@ -1,0 +1,10 @@
+FROM docker:17.06.0-ce-dind
+MAINTAINER Matt Bentley <matt@docker.com>
+
+RUN apk --no-cache add bash curl
+
+COPY *.sh /onap/
+COPY ./docker-scripts/waitfordocker.sh /waitfordocker.sh
+
+ENTRYPOINT ["/waitfordocker.sh"]
+CMD ["/onap/_all.sh","launch"]
