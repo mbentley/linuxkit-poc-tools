@@ -21,8 +21,14 @@ push:		## Push Docker images for ONAP launch and OOM clone to DTR
 	docker push dtr.att.dckr.org/services/onaplaunch:latest
 	docker push dtr.att.dckr.org/services/oomclone:latest
 
+push-aws:	## Push the raw image to AWS
+	linuxkit push aws -bucket mbentley-linuxkit-poc onap-aws.raw
+
 run:		## Run the project LinuxKit image
 	linuxkit run $(PROJECT)
+
+run-aws:	## Run the project LinuxKit image on AWS
+	linuxkit run aws -disk-size 30 -machine t2.2xlarge -zone b $(PROJECT)
 
 kill:		## Kill the project instance
 	kill -9 $(PID)
