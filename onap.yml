@@ -46,10 +46,11 @@ services:
      - /etc/docker/daemon.json:/etc/docker/daemon.json
      - /var/run:/var/run
     command: ["/usr/local/bin/docker-init", "/usr/local/bin/dockerd"]
-#  - name: onaplaunch
-#    image: dtr.att.dckr.org/services/onaplaunch:latest
-#    binds:
-#     - /var/run:/var/run
+  - name: onaplaunch
+    image: dtr.att.dckr.org/services/onaplaunch:latest
+    binds:
+     - /var/run:/var/run
+     - /var/lib/docker:/var/lib/docker
 files:
   - path: var/lib/docker
     directory: true
