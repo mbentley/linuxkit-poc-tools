@@ -51,6 +51,10 @@ services:
     binds:
      - /var/run:/var/run
      - /var/lib/docker:/var/lib/docker
+    capabilities:
+      - CAP_CHOWN
+      - CAP_SETUID
+      - CAP_SETGID
 files:
   - path: var/lib/docker
     directory: true
