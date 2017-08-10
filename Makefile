@@ -1,5 +1,5 @@
 .PHONY: all help build build-raw images push run kill rm clean
-PROJECT ?= onap
+PROJECT ?= onap-aws
 PID = `cat $(PROJECT)-state/hyperkit.pid`
 
 all: help
@@ -28,7 +28,7 @@ run:		## Run the project LinuxKit image
 	linuxkit run $(PROJECT)
 
 run-aws:	## Run the project LinuxKit image on AWS
-	linuxkit run aws -disk-type standard -disk-size 60 -machine t2.2xlarge -zone a $(PROJECT)
+	linuxkit run aws -disk-type gp2 -disk-size 60 -machine t2.2xlarge -zone a $(PROJECT)
 
 kill:		## Kill the project instance
 	kill -9 $(PID)
