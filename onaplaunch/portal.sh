@@ -2,6 +2,10 @@
 
 set -e
 
+# figure out host ip
+DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
+DEFAULT_IP="$(ip addr show dev "${DEFAULT_IFACE}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
+
 remove() {
   echo -e "\nKilling and removing containers..."
   #shellcheck disable=2046
@@ -71,11 +75,11 @@ launch() {
     --label app=portal \
     --net onap-portal \
     --privileged \
-    --add-host sdc.api.simpledemo.openecomp.org:172.31.4.207 \
-    --add-host portal.api.simpledemo.openecomp.org:172.31.4.207 \
-    --add-host policy.api.simpledemo.openecomp.org:172.31.4.207 \
-    --add-host sdc.ui.simpledemo.openecomp.org:172.31.4.207 \
-    --add-host vid.api.simpledemo.openecomp.org:172.31.4.207 \
+    --add-host sdc.api.simpledemo.openecomp.org:"${DEFAULT_IP}" \
+    --add-host portal.api.simpledemo.openecomp.org:"${DEFAULT_IP}" \
+    --add-host policy.api.simpledemo.openecomp.org:"${DEFAULT_IP}" \
+    --add-host sdc.ui.simpledemo.openecomp.org:"${DEFAULT_IP}" \
+    --add-host vid.api.simpledemo.openecomp.org:"${DEFAULT_IP}" \
     -e VNC_PASSWORD=password \
     -v portal-ubuntu-init:/ubuntu-init \
     dtr.att.dckr.org/onap/ubuntu-desktop-lxde-vnc:latest
