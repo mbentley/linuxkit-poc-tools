@@ -110,7 +110,7 @@ launch() {
     -p 30205:8080 \
     -p 30204:8443 \
     -e ENVNAME=AUTO \
-    -e HOST_IP="${DEFAULT_IP}" \
+    -e HOST_IP=127.0.0.1 \
     -v /etc/localtime:/etc/localtime \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
