@@ -2,6 +2,10 @@
 
 set -e
 
+# figure out host ip
+DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
+DEFAULT_IP="$(ip addr show dev "${DEFAULT_IFACE}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
+
 remove() {
   echo -e "\nKilling and removing containers..."
   #shellcheck disable=2046
@@ -40,7 +44,7 @@ launch() {
     -p 9200 \
     -p 9300 \
     -e ENVNAME=AUTO \
-    -e HOST_IP=172.31.4.207 \
+    -e HOST_IP="${DEFAULT_IP}" \
     -e ES_HEAP_SIZE=1024M \
     -v /etc/localtime:/etc/localtime \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
@@ -57,7 +61,7 @@ launch() {
     -p 9042 \
     -p 9160 \
     -e ENVNAME=AUTO \
-    -e HOST_IP=172.31.4.207 \
+    -e HOST_IP="${DEFAULT_IP}" \
     -e ES_HEAP_SIZE=1024M \
     -v /etc/localtime:/etc/localtime \
     -v /dockerdata-nfs/onapdemo/sdc/sdc-cs/CS:/var/lib/cassandra \
@@ -88,7 +92,7 @@ launch() {
     -p 8181:8181 \
     -p 30207:9443 \
     -e ENVNAME=AUTO \
-    -e HOST_IP=172.31.4.207 \
+    -e HOST_IP="${DEFAULT_IP}" \
     -v /etc/localtime:/etc/localtime \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
@@ -116,7 +120,7 @@ launch() {
   docker network connect onap-message-router sdc-be
   docker start sdc-be
 
-  #-e HOST_IP=172.31.4.207 \
+  #-e HOST_IP="${DEFAULT_IP}" \
 }
 
 main() {
