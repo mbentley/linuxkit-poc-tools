@@ -68,6 +68,9 @@ launch() {
     -v portalapps-logs:/opt/apache-tomcat-8.0.37/logs \
     dtr.att.dckr.org/onap/portalapps:1.0-STAGING-latest
 
+  echo "Yet another hack to wait for portalapps to come up..."
+  sleep 15
+
   ## vnc-portal
   echo -e "\nLaunching vnc-portal..."
   docker run -d --name vnc-portal \
