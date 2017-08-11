@@ -31,6 +31,7 @@ launch() {
   echo -e "\nCreating volumes..."
   docker volume create --label app=sdc --label onap=1 --driver local sdc-es
   docker volume create --label app=sdc --label onap=1 --driver local sdc-cs
+  docker volume create --label app=sdc --label onap=1 --driver local sdc-cs-logs
   docker volume create --label app=sdc --label onap=1 --driver local sdc-logs
 
   echo -e "\nSetting volume permissions for Jetty..."
@@ -59,13 +60,14 @@ launch() {
     --label onap=1 \
     --label app=sdc \
     --net onap-sdc \
-    -p 9042 \
+    -p 9042:9042 \
     -p 9160 \
     -e ENVNAME=AUTO \
     -e HOST_IP="${DEFAULT_IP}" \
     -e ES_HEAP_SIZE=1024M \
     -v /etc/localtime:/etc/localtime \
     -v sdc-cs:/var/lib/cassandra \
+    -v sdc-cs-logs:/var/log/cassandra \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
     -v sdc-logs:/var/lib/jetty/logs \
     dtr.att.dckr.org/onap/sdc-cassandra:1.0-STAGING-latest
