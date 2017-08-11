@@ -54,6 +54,9 @@ launch() {
     -v sdc-logs:/var/lib/jetty/logs \
     dtr.att.dckr.org/onap/sdc-elasticsearch:1.0-STAGING-latest
 
+  echo "Wait 15 seconds for sdc-cs to come up..."
+  sleep 30
+
   ## sdc-cs
   echo -e "\nLaunching sdc-cs..."
   docker run -d --name sdc-cs \
@@ -71,6 +74,9 @@ launch() {
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
     -v sdc-logs:/var/lib/jetty/logs \
     dtr.att.dckr.org/onap/sdc-cassandra:1.0-STAGING-latest
+
+  echo "Wait 30 seconds for sdc-cs to come up..."
+  sleep 30
 
   ## sdc-kb
   echo -e "\nLaunching sdc-kb..."
@@ -103,6 +109,9 @@ launch() {
     -v sdc-es:/usr/share/elasticsearch/data \
     -v sdc-logs:/var/lib/jetty/logs \
     dtr.att.dckr.org/onap/sdc-frontend:1.0-STAGING-latest
+
+  echo "Wait 15 seconds for the SDC services to come up..."
+  sleep 15
 
   ## sdc-be
   echo -e "\nLaunching sdc-be..."

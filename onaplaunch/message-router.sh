@@ -38,7 +38,7 @@ launch() {
     -v message-router-zk-conf:/opt/zookeeper-3.4.9/conf \
     dtr.att.dckr.org/onap/zookeeper:latest
 
-  echo "Yet another hack to wait 15 seconds for zookeeper to come up..."
+  echo "Wait 15 seconds for zookeeper to come up..."
   sleep 15
 
   ## global-kafka
