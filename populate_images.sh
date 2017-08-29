@@ -3,7 +3,7 @@
 set -e
 
 USERNAME="${USERNAME:-}"
-PASSWORD="${PASSOWRD:-}"
+PASSWORD="${PASSWORD:-}"
 
 check_credentials() {
   if [ -z "${USERNAME}" ] || [ -z "${PASSWORD}" ]
