@@ -3,7 +3,7 @@
 if [ -d "/root/git/gerrit.onap.org/oom" ]
 then
   echo "Cleaning '/root/git/gerrit.onap.org/oom'..."
-  rm -rfv /root/git/gerrit.onap.org/oom
+  rm -rf /root/git/gerrit.onap.org/oom
   echo "done.";echo
 fi
 
