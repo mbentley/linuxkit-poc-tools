@@ -8,7 +8,7 @@ PASSWORD="${PASSWORD:-}"
 check_credentials() {
   if [ -z "${USERNAME}" ] || [ -z "${PASSWORD}" ]
   then
-    echo "Error: Missing USERNAME or PASSWORD env var for DTR authentication"
+    echo "Error: Missing USERNAME or PASSWORD env var for registry authentication"
     exit 1
   fi
 }
@@ -80,7 +80,7 @@ pull_images() {
 retag_images() {
   for IMAGE in ${IMAGES}
   do
-    NEW_IMAGE="dtr.att.dckr.org/onap/$(echo "${IMAGE}" | awk -F '/' '{print $NF}')"
+    NEW_IMAGE="linuxkitpoc/$(echo "${IMAGE}" | awk -F '/' '{print $NF}')"
     echo -n "Retagging ${IMAGE} => ${NEW_IMAGE}..."
     docker tag "${IMAGE}" "${NEW_IMAGE}"
     echo -e "done"
@@ -90,31 +90,18 @@ retag_images() {
 create_repos() {
   check_credentials
 
+  # get docker hub token
+  TOKEN=$(curl -sf -H "Content-Type: application/json" -X POST -d '{"username": "'"${USERNAME}"'", "password": "'"${PASSWORD}"'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
+
   for IMAGE in ${IMAGES}
   do
     NEW_REPO="$(echo "${IMAGE}" | awk -F '/' '{print $NF}' | awk -F ':' '{print $1}')"
-    curl -X POST --header "Content-Type: application/json" --header "Accept: application/json" -u "${USERNAME}":"${PASSWORD}" -d "{
+    curl -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: JWT ${TOKEN}" -d "{
+      \"namespace\": \"linuxkitpoc\",
       \"name\": \"${NEW_REPO}\",
-      \"shortDescription\": \"${NEW_REPO}\",
-      \"longDescription\": \"${NEW_REPO}\",
-      \"visibility\": \"public\",
-      \"scanOnPush\": true
-      }" "https://dtr.att.dckr.org/api/v0/repositories/onap" || true
-  done
-}
-
-update_repos() {
-  check_credentials
-
-  for IMAGE in ${IMAGES}
-  do
-    NEW_REPO="$(echo "${IMAGE}" | awk -F '/' '{print $NF}' | awk -F ':' '{print $1}')"
-    curl -X PATCH --header "Content-Type: application/json" --header "Accept: application/json" -u "${USERNAME}":"${PASSWORD}" -d "{
-      \"shortDescription\": \"from ${IMAGE}\",
-      \"longDescription\": \"Image was pulled from ${IMAGE}\",
-      \"visibility\": \"public\",
-      \"scanOnPush\": true
-      }" "https://dtr.att.dckr.org/api/v0/repositories/onap/${NEW_REPO}" || true
+      \"description\": \"from ${IMAGE}\",
+      \"full_description\": \"Image was pulled from ${IMAGE}\",
+      \"is_private\": false}" "https://hub.docker.com/v2/repositories/" || true
   done
 }
 
@@ -123,8 +110,8 @@ push_images() {
 
   for IMAGE in ${IMAGES}
   do
-    NEW_IMAGE="dtr.att.dckr.org/onap/$(echo "${IMAGE}" | awk -F '/' '{print $NF}')"
-    docker login -u "${USERNAME}" -p "${PASSWORD}" dtr.att.dckr.org
+    NEW_IMAGE="linuxkitpoc/$(echo "${IMAGE}" | awk -F '/' '{print $NF}')"
+    docker login -u "${USERNAME}" -p "${PASSWORD}"
     docker push "${NEW_IMAGE}"
   done
 }
@@ -145,14 +132,11 @@ case ${1} in
   create_repos)
     create_repos
     ;;
-  update_repos)
-    update_repos
-    ;;
   push)
     push_images
     ;;
   *)
-    echo "Usage: $0 {pull|list|compare|retag|create_repos|update_repos|push}"
+    echo "Usage: $0 {pull|list|compare|retag|create_repos|push}"
     exit 1
     ;;
 esac
