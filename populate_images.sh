@@ -13,7 +13,7 @@ check_credentials() {
   fi
 }
 
-oom_PATH="${HOME}/git/gerrit.onap.org/oom"
+oom_PATH="${HOME}/git/mbentley/oom"
 
 IMAGES_FROM_REPO="$(find "${oom_PATH}" -name "*.yaml" -exec grep 'image:' {} \; | grep -v oomk8s | grep -v get_param | awk -F "image: " '{print $2}' | sort -u)"
 
