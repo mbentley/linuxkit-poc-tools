@@ -39,7 +39,7 @@ launch() {
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/mariadb/conf.d:/etc/mysql/conf.d \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d \
     -v mso-mariadb:/var/lib/mysql \
-    dtr.att.dckr.org/onap/mariadb:10.1.11
+    linuxkitpoc/mariadb:10.1.11
 
   ## mso
   echo -e "\nLaunching mso..."
@@ -54,7 +54,7 @@ launch() {
     -p 30250:8787 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/mso:/shared \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/docker-files:/docker-files \
-    dtr.att.dckr.org/onap/mso:1.0-STAGING-latest \
+    linuxkitpoc/mso:1.0-STAGING-latest \
       /docker-files/scripts/start-jboss-server.sh
 }
 

@@ -39,7 +39,7 @@ launch() {
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e MYSQL_ROOT_HOST='%' \
     -v appc-data:/var/lib/mysql \
-    dtr.att.dckr.org/onap/mysql-server:5.6
+    linuxkitpoc/mysql-server:5.6
 
   ## appc-dgbuilder-container
   echo -e "\nLaunching appc-dgbuilder-container..."
@@ -51,7 +51,7 @@ launch() {
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/appc/data/properties \
     -e APPC_CONFIG_DIR=/opt/openecomp/appc/data/properties \
-    dtr.att.dckr.org/onap/dgbuilder-sdnc-image:1.0-STAGING-latest \
+    linuxkitpoc/dgbuilder-sdnc-image:1.0-STAGING-latest \
       /bin/bash -c 'cd /opt/openecomp/sdnc/dgbuilder/ && ./start sdnc1.0 && wait'
 
   ## appc
@@ -68,7 +68,7 @@ launch() {
     -e DMAAP_TOPIC_ENV=SUCCESS \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/appc/conf:/opt/openecomp/appc/data/properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdnc/conf:/opt/openecomp/sdnc/data/properties \
-    dtr.att.dckr.org/onap/appc-image:1.0-STAGING-latest \
+    linuxkitpoc/appc-image:1.0-STAGING-latest \
       /opt/openecomp/appc/bin/startODL.sh
 }
 

@@ -43,7 +43,7 @@ launch() {
     -e MYSQL_ROOT_PASSWORD=password \
     -v portal-mariadb-data:/var/lib/mysql \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/mariadb/Apps_Users_OnBoarding_Script.sql:/docker-entrypoint-initdb.d/z_Apps_Users_OnBoarding_Script.sql \
-    dtr.att.dckr.org/onap/portaldb:1.0-STAGING-latest
+    linuxkitpoc/portaldb:1.0-STAGING-latest
 
   ## portalapps
   echo -e "\nLaunching portalapps..."
@@ -66,7 +66,7 @@ launch() {
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPSDKAPP/portal.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPSDKAPP/WEB-INF/classes/portal.properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal:/portal_root \
     -v portalapps-logs:/opt/apache-tomcat-8.0.37/logs \
-    dtr.att.dckr.org/onap/portalapps:1.0-STAGING-latest
+    linuxkitpoc/portalapps:1.0-STAGING-latest
 
   echo "Wait for portalapps to come up..."
   sleep 15
@@ -85,7 +85,7 @@ launch() {
     --add-host vid.api.simpledemo.openecomp.org:"${DEFAULT_IP}" \
     -e VNC_PASSWORD=password \
     -v portal-ubuntu-init:/ubuntu-init \
-    dtr.att.dckr.org/onap/ubuntu-desktop-lxde-vnc:latest
+    linuxkitpoc/ubuntu-desktop-lxde-vnc:latest
   # the portal-vnc-dep.yaml file uses some bad hacks to override DNS for some reason; no clue why but holding this here in case i have to implement something like it
   # echo `host sdc-be.onap-sdc | awk ''{print$4}''` sdc.api.simpledemo.openecomp.org  >> /ubuntu-init/hosts; echo `host portalapps.onap-portal | awk ''{print$4}''` portal.api.simpledemo.openecomp.org  >> /ubuntu-init/hosts; echo `host pap.onap-policy | awk ''{print$4}''` policy.api.simpledemo.openecomp.org  >> /ubuntu-init/hosts; echo `host sdc-fe.onap-sdc | awk ''{print$4}''` sdc.ui.simpledemo.openecomp.org  >> /ubuntu-init/hosts; echo `host vid-server.onap-vid | awk ''{print$4}''` vid.api.simpledemo.openecomp.org >> /ubuntu-init/hosts
   # cat /ubuntu-init/hosts >> /etc/hosts

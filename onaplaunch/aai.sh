@@ -33,7 +33,7 @@ launch() {
     --label app=aai \
     --net onap-aai \
     -p 8020 \
-    dtr.att.dckr.org/onap/aai-hbase-1.2.3:latest
+    linuxkitpoc/aai-hbase-1.2.3:latest
 
   ## aai
   echo -e "\nLaunching aai-service..."
@@ -53,7 +53,7 @@ launch() {
     -v aai-logroot:/opt/aai/logroot/AAI \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/aai/aai-config:/var/chef/aai-config \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/aai/aai-data:/var/chef/aai-data \
-    dtr.att.dckr.org/onap/ajsc-aai:1.0-STAGING-latest
+    linuxkitpoc/ajsc-aai:1.0-STAGING-latest
     #-v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/aai/opt/aai/logroot:/opt/aai/logroot \
 
   ## model-loader
@@ -72,7 +72,7 @@ launch() {
     -e APP_SERVER_KEYSTORE_PASSWORD=OBF:1i9a1u2a1unz1lr61wn51wn11lss1unz1u301i6o \
     -e APP_SERVER_AUTH_USER=ModelLoader \
     -e APP_SERVER_AUTH_PASSWORD=OBF:1qvu1v2h1sov1sar1wfw1j7j1wg21saj1sov1v1x1qxw \
-    dtr.att.dckr.org/onap/model-loader:1.0-STAGING-latest
+    linuxkitpoc/model-loader:1.0-STAGING-latest
   docker network connect onap-sdc model-loader
   docker network connect onap-message-router model-loader
   docker start model-loader

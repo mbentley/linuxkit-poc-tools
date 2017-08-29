@@ -52,7 +52,7 @@ launch() {
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
     -v sdc-es:/usr/share/elasticsearch/data \
     -v sdc-logs:/var/lib/jetty/logs \
-    dtr.att.dckr.org/onap/sdc-elasticsearch:1.0-STAGING-latest
+    linuxkitpoc/sdc-elasticsearch:1.0-STAGING-latest
 
   echo "Wait 15 seconds for sdc-cs to come up..."
   sleep 30
@@ -73,7 +73,7 @@ launch() {
     -v sdc-cs-logs:/var/log/cassandra \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
     -v sdc-logs:/var/lib/jetty/logs \
-    dtr.att.dckr.org/onap/sdc-cassandra:1.0-STAGING-latest
+    linuxkitpoc/sdc-cassandra:1.0-STAGING-latest
 
   echo "Wait 30 seconds for sdc-cs to come up..."
   sleep 30
@@ -90,7 +90,7 @@ launch() {
     -v /etc/localtime:/etc/localtime \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
     -v sdc-logs:/var/lib/jetty/logs \
-    dtr.att.dckr.org/onap/sdc-kibana:1.0-STAGING-latest
+    linuxkitpoc/sdc-kibana:1.0-STAGING-latest
 
   ## sdc-fe
   echo -e "\nLaunching sdc-fe..."
@@ -108,7 +108,7 @@ launch() {
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/sdc-fe/FE_2_setup_configuration.rb:/root/chef-solo/cookbooks/sdc-catalog-fe/recipes/FE_2_setup_configuration.rb \
     -v sdc-es:/usr/share/elasticsearch/data \
     -v sdc-logs:/var/lib/jetty/logs \
-    dtr.att.dckr.org/onap/sdc-frontend:1.0-STAGING-latest
+    linuxkitpoc/sdc-frontend:1.0-STAGING-latest
 
   echo "Wait 15 seconds for the SDC services to come up..."
   sleep 15
@@ -128,7 +128,7 @@ launch() {
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
     -v sdc-es:/usr/share/elasticsearch/data \
     -v sdc-logs:/var/lib/jetty/logs \
-    dtr.att.dckr.org/onap/sdc-backend:1.0-STAGING-latest
+    linuxkitpoc/sdc-backend:1.0-STAGING-latest
   docker network connect onap-message-router sdc-be
   docker start sdc-be
 

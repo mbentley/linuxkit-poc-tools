@@ -36,7 +36,7 @@ launch() {
     -p 2181 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dcae-startup-vm-message-router/docker_files/data-zookeeper:/opt/zookeeper-3.4.9/data \
     -v message-router-zk-conf:/opt/zookeeper-3.4.9/conf \
-    dtr.att.dckr.org/onap/zookeeper:latest
+    linuxkitpoc/zookeeper:latest
 
   echo "Wait 15 seconds for zookeeper to come up..."
   sleep 15
@@ -56,7 +56,7 @@ launch() {
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dcae-startup-vm-message-router/docker_files/data-kafka:/kafka \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dcae-startup-vm-message-router/docker_files/start-kafka.sh:/start-kafka.sh \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    dtr.att.dckr.org/onap/kafka:latest
+    linuxkitpoc/kafka:latest
 
   ## dmaap
   echo -e "\nLaunching dmaap..."
@@ -69,7 +69,7 @@ launch() {
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dmaap/MsgRtrApi.properties:/appl/dmaapMR1/bundleconfig/etc/appprops/MsgRtrApi.properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dmaap/cadi.properties:/appl/dmaapMR1/etc/cadi.properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dmaap/mykey:/appl/dmaapMR1/etc/keyfile \
-    dtr.att.dckr.org/onap/dmaap:latest
+    linuxkitpoc/dmaap:latest
 }
 
 main() {

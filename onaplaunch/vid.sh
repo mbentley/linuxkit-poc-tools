@@ -40,7 +40,7 @@ launch() {
     -v vid-mariadb-data:/var/lib/mysql \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/vid/vid/lf_config/vid-pre-init.sql:/docker-entrypoint-initdb.d/vid-pre-init.sql \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/vid/vid/lf_config/vid-my.cnf:/etc/mysql/my.cnf \
-    dtr.att.dckr.org/onap/mariadb:10
+    linuxkitpoc/mariadb:10
 
   ## vid
   echo -e "\nLaunching vid-server..."
@@ -69,7 +69,7 @@ launch() {
     -e VID_MYSQL_USER=vidadmin \
     -e VID_MYSQL_PASS=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U \
     -e VID_MYSQL_MAXCONNECTIONS=5 \
-    dtr.att.dckr.org/onap/vid:1.0-STAGING-latest
+    linuxkitpoc/vid:1.0-STAGING-latest
   docker network connect onap-aai vid-server
   docker network connect onap-sdc vid-server
   docker network connect onap-portal vid-server

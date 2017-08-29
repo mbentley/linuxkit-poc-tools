@@ -14,12 +14,12 @@ build-raw:	## Build the project LinuxKit image (RAW)
 	moby build -output raw $(PROJECT).yml
 
 images:		## Build Docker images for ONAP launch and OOM clone
-	docker build -f onaplaunch/Dockerfile.launch -t dtr.att.dckr.org/services/onaplaunch:latest onaplaunch
-	docker build -f oomclone/Dockerfile.oom -t dtr.att.dckr.org/services/oomclone:latest oomclone
+	docker build -f onaplaunch/Dockerfile.launch -t linuxkitpoc/onaplaunch:latest onaplaunch
+	docker build -f oomclone/Dockerfile.oom -t linuxkitpoc/oomclone:latest oomclone
 
 push:		## Push Docker images for ONAP launch and OOM clone to DTR
-	docker push dtr.att.dckr.org/services/onaplaunch:latest
-	docker push dtr.att.dckr.org/services/oomclone:latest
+	docker push linuxkitpoc/onaplaunch:latest
+	docker push linuxkitpoc/oomclone:latest
 
 push-aws:	## Push the raw image to AWS
 	linuxkit push aws -bucket mbentley-linuxkit-poc onap-aws.raw

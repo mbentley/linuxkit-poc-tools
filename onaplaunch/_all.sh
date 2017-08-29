@@ -14,7 +14,7 @@ execute() {
 clone() {
   if [ ! -d "${HOME}/git/oom" ]
   then
-    docker run --rm -v /root:/root dtr.att.dckr.org/services/oomclone:latest
+    docker run --rm -v /root:/root linuxkitpoc/oomclone:latest
   fi
 
   # fix static ip in config

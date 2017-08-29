@@ -38,7 +38,7 @@ launch() {
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/robot/resources:/var/opt/OpenECOMP_ETE/robot/resources \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/robot/testsuites:/var/opt/OpenECOMP_ETE/robot/testsuites \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/authorization:/etc/lighttpd/authorization \
-    dtr.att.dckr.org/onap/testsuite:1.0-STAGING-latest
+    linuxkitpoc/testsuite:1.0-STAGING-latest
 }
 
 main() {

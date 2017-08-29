@@ -38,7 +38,7 @@ launch() {
     -p 3306 \
     -v policy-data:/var/lib/mysql \
     -v policy-data2:/etc/mysql \
-    dtr.att.dckr.org/onap/policy-db:1.0-STAGING-latest \
+    linuxkitpoc/policy-db:1.0-STAGING-latest \
       /bin/bash -c 'exec bash /tmp/do-start.sh'
 
   ## nexus
@@ -49,7 +49,7 @@ launch() {
     --net onap-policy \
     -p 8081 \
     -v nexus-data:/opt/nexus/sonatype-work \
-    dtr.att.dckr.org/onap/policy-nexus:1.0-STAGING-latest \
+    linuxkitpoc/policy-nexus:1.0-STAGING-latest \
       /bin/bash -c '/opt/nexus/nexus-2.14.2-01/bin/nexus start && sleep infinity'
 
   ## drools
@@ -61,7 +61,7 @@ launch() {
     -p 30217:6969 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/drools/settings.xml:/usr/share/maven/conf/settings.xml \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/drools:/tmp/policy-install/config \
-    dtr.att.dckr.org/onap/policy-drools:1.0-STAGING-latest \
+    linuxkitpoc/policy-drools:1.0-STAGING-latest \
       /bin/bash -c './do-start.sh'
 
   ## pap
@@ -73,7 +73,7 @@ launch() {
     -p 8443:8443 \
     -p 30218:9091 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
-    dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
+    linuxkitpoc/policy-pe:1.0-STAGING-latest \
       pap
 
   ## pdp
@@ -84,7 +84,7 @@ launch() {
     --net onap-policy \
     -p 30220:8081 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
-    dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
+    linuxkitpoc/policy-pe:1.0-STAGING-latest \
       pdp
 
   ## pypdp
@@ -95,7 +95,7 @@ launch() {
     --net onap-policy \
     -p 30221:8480 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
-    dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
+    linuxkitpoc/policy-pe:1.0-STAGING-latest \
       pypdp
 
   ## brmsgw
@@ -106,7 +106,7 @@ launch() {
     --net onap-policy \
     -p 30216:9989 \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
-    dtr.att.dckr.org/onap/policy-pe:1.0-STAGING-latest \
+    linuxkitpoc/policy-pe:1.0-STAGING-latest \
       brmsgw
 }
 

@@ -39,7 +39,7 @@ launch() {
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e MYSQL_ROOT_HOST='%' \
     -v sdnc-data:/var/lib/mysql \
-    dtr.att.dckr.org/onap/mysql-server:5.6
+    linuxkitpoc/mysql-server:5.6
 
   ## sdnc-dgbuilder-container
   echo -e "\nLaunching sdnc-dgbuilder-container..."
@@ -50,7 +50,7 @@ launch() {
     -p 30203:3100 \
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/sdnc/data/properties \
-    dtr.att.dckr.org/onap/dgbuilder-sdnc-image:1.0-STAGING-latest \
+    linuxkitpoc/dgbuilder-sdnc-image:1.0-STAGING-latest \
       /bin/bash -c 'cd /opt/openecomp/sdnc/dgbuilder/ && ./start sdnc1.0 && wait'
 
   ## sdnc
@@ -63,7 +63,7 @@ launch() {
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/sdnc/data/properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdnc/conf:/opt/openecomp/sdnc/data/properties \
-    dtr.att.dckr.org/onap/sdnc-image:1.0-STAGING-latest \
+    linuxkitpoc/sdnc-image:1.0-STAGING-latest \
       /opt/openecomp/sdnc/bin/startODL.sh
 
   ## sdnc-portal-container
@@ -76,7 +76,7 @@ launch() {
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/sdnc/data/properties \
     -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdnc/conf:/opt/openecomp/sdnc/data/properties \
-    dtr.att.dckr.org/onap/admportal-sdnc-image:1.0-STAGING-latest \
+    linuxkitpoc/admportal-sdnc-image:1.0-STAGING-latest \
       /bin/bash -c 'cd /opt/openecomp/sdnc/admportal/shell && ./start_portal.sh'
 }
 

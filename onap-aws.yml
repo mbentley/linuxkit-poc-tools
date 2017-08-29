@@ -49,7 +49,7 @@ services:
      - /var/run:/var/run
     command: ["/usr/local/bin/docker-init", "/usr/local/bin/dockerd"]
   - name: onaplaunch
-    image: dtr.att.dckr.org/services/onaplaunch:latest
+    image: linuxkitpoc/onaplaunch:latest
     binds:
      - /var/run:/var/run
      - /var/lib/docker:/var/lib/docker
