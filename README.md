@@ -10,6 +10,7 @@ linuxkit-poc-tools
 ## Build, push and run in AWS
 
 ``` bash
+$ export AWS_ACCESS_KEY_ID="<insert key id here>" AWS_SECRET_ACCESS_KEY="<insert access key here>" REGION="<insert region here>"
 $ make build-raw
 $ make push-aws
 $ make run-aws
