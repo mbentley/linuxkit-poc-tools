@@ -1,7 +1,7 @@
 onaplaunch
 ==========
 
-You only need a Docker Engine + running the `_all.sh` script to launch ONAP.
+You only need a Docker Engine + running the `_all.sh` script to launch ONAP.  It is expecting that you are executing this as root (or using sudo):
 
 ```
 # ./_all.sh launch

@@ -7,7 +7,13 @@ linuxkit-poc-tools
 * `onap.yml` - contains a LinuxKit definition file that will create an ONAP deployable VM
 * `onap-aws.yml` - similar to `onap.yml` but adds the necessary metadata support for AWS
 
+## Run on a Docker Engine anywhere
+
+Refer to the `onaplaunch/` subdirectory for the scripting to launch ONAP natively on a Docker Engine (tested on 1.13 and 17.03).
+
 ## Build, push and run in AWS
+
+**Note**: These instructions assume that you have gone through the LinuxKit [Getting Started](https://github.com/linuxkit/linuxkit#getting-started) section to build the `moby` and `linuxkit` tools.
 
 ``` bash
 $ export AWS_ACCESS_KEY_ID="<insert key id here>" AWS_SECRET_ACCESS_KEY="<insert access key here>" REGION="<insert region here>"
