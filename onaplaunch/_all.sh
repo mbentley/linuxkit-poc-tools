@@ -2,6 +2,13 @@
 
 set -e
 
+# check to see if running as root
+if [ "$EUID" -ne 0 ]
+then
+  echo "Please run as root"
+  exit 1
+fi
+
 execute() {
   for APP in ${APPS}
   do

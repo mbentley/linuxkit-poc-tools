@@ -3,6 +3,10 @@ onaplaunch
 
 You only need a Docker Engine + running the `_all.sh` script to launch ONAP.
 
+```
+# ./_all.sh launch
+```
+
 Due to some hard coded values in the default [oom](https://github.com/mbentley/oom) configuration, you must override these DNS entries in your hosts file (replacing the IP with whatever the IP of your instance is):
 
 ```
