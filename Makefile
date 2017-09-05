@@ -28,7 +28,7 @@ run:		## Run the project LinuxKit image
 	linuxkit run $(PROJECT)
 
 run-aws:	## Run the project LinuxKit image on AWS
-	linuxkit run aws -disk-type gp2 -disk-size 60 -machine t2.2xlarge -zone a $(PROJECT)
+	linuxkit run aws -disk-type gp2 -disk-size 60 -machine m4.4xlarge -zone a $(PROJECT)
 
 kill:		## Kill the project instance
 	kill -9 $(PID)
