@@ -26,6 +26,9 @@ nexus3.onap.org:10001/mariadb:10.1.11
 nexus3.onap.org:10001/openecomp/admportal-sdnc-image:1.0-STAGING-latest
 nexus3.onap.org:10001/openecomp/ajsc-aai:1.0-STAGING-latest
 nexus3.onap.org:10001/openecomp/appc-image:1.0-STAGING-latest
+nexus3.onap.org:10001/openecomp/dcae-dmaapbc:1.0-STAGING-latest
+nexus3.onap.org:10001/openecomp/dcae-collector-common-event:1.0-STAGING-latest
+nexus3.onap.org:10001/openecomp/dcae-controller:1.0-STAGING-latest
 nexus3.onap.org:10001/openecomp/dgbuilder-sdnc-image:1.0-STAGING-latest
 nexus3.onap.org:10001/openecomp/model-loader:1.0-STAGING-latest
 nexus3.onap.org:10001/openecomp/mso:1.0-STAGING-latest
@@ -43,38 +46,40 @@ nexus3.onap.org:10001/openecomp/sdc-kibana:1.0-STAGING-latest
 nexus3.onap.org:10001/openecomp/sdnc-image:1.0-STAGING-latest
 nexus3.onap.org:10001/openecomp/testsuite:1.0-STAGING-latest
 nexus3.onap.org:10001/openecomp/vid:1.0-STAGING-latest
+oomk8s/pgaas:1
+oomk8s/cdap-fs:1.0.0
 wurstmeister/kafka:latest
 wurstmeister/zookeeper:latest"
 
 list_images() {
-	for IMAGE in ${IMAGES}
-	do
-	  echo "${IMAGE}"
-	done
+  for IMAGE in ${IMAGES}
+  do
+    echo "${IMAGE}"
+  done
 }
 
 compare_images() {
-	echo "Pulling updates for gerrit.onap.org/oom..."
-	cd "${HOME}"/git/gerrit.onap.org/oom/
-	git pull origin master
-	echo -e "done.\n"
+  echo "Pulling updates for gerrit.onap.org/oom..."
+  cd "${HOME}"/git/gerrit.onap.org/oom/
+  git pull origin master
+  echo -e "done.\n"
 
-	if [ "${IMAGES_FROM_REPO}" == "${IMAGES}" ]
-	then
-		echo "IMAGE list up to date"
-	else
-		echo "IMAGE list not up to date with oom repo"
-		diff <(echo "${IMAGES_FROM_REPO}") <(echo "${IMAGES}")
-	fi
+  if [ "${IMAGES_FROM_REPO}" == "${IMAGES}" ]
+  then
+    echo "IMAGE list up to date"
+  else
+    echo "IMAGE list not up to date with oom repo"
+    diff <(echo "${IMAGES_FROM_REPO}") <(echo "${IMAGES}")
+  fi
 }
 
 pull_images() {
-	docker login -u docker -p docker nexus3.onap.org:10001
+  docker login -u docker -p docker nexus3.onap.org:10001
 
-	for IMAGE in ${IMAGES}
-	do
-	  docker pull "${IMAGE}"
-	done
+  for IMAGE in ${IMAGES}
+  do
+    docker pull "${IMAGE}"
+  done
 }
 
 retag_images() {
