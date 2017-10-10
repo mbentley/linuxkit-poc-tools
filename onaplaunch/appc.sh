@@ -2,6 +2,8 @@
 
 set -e
 
+CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+
 remove() {
   echo -e "\nKilling and removing containers..."
   #shellcheck disable=2046
@@ -66,8 +68,8 @@ launch() {
     -e SDNC_CONFIG_DIR=/opt/openecomp/appc/data/properties \
     -e APPC_CONFIG_DIR=/opt/openecomp/appc/data/properties \
     -e DMAAP_TOPIC_ENV=SUCCESS \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/appc/conf:/opt/openecomp/appc/data/properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdnc/conf:/opt/openecomp/sdnc/data/properties \
+    -v "${CONFIG_HOME}"/appc/conf:/opt/openecomp/appc/data/properties \
+    -v "${CONFIG_HOME}"/sdnc/conf:/opt/openecomp/sdnc/data/properties \
     linuxkitpoc/appc-image:1.0-STAGING-latest \
       /opt/openecomp/appc/bin/startODL.sh
 }

@@ -2,6 +2,8 @@
 
 set -e
 
+CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+
 remove() {
   echo -e "\nKilling and removing containers..."
   #shellcheck disable=2046
@@ -34,7 +36,7 @@ launch() {
     --label app=message-router \
     --net onap-message-router \
     -p 2181 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dcae-startup-vm-message-router/docker_files/data-zookeeper:/opt/zookeeper-3.4.9/data \
+    -v "${CONFIG_HOME}"/message-router/dcae-startup-vm-message-router/docker_files/data-zookeeper:/opt/zookeeper-3.4.9/data \
     -v message-router-zk-conf:/opt/zookeeper-3.4.9/conf \
     linuxkitpoc/zookeeper:latest
 
@@ -53,8 +55,8 @@ launch() {
     -e KAFKA_BROKER_ID=1 \
     -e KAFKA_ADVERTISED_PORT=9092 \
     -e KAFKA_PORT=9092 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dcae-startup-vm-message-router/docker_files/data-kafka:/kafka \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dcae-startup-vm-message-router/docker_files/start-kafka.sh:/start-kafka.sh \
+    -v "${CONFIG_HOME}"/message-router/dcae-startup-vm-message-router/docker_files/data-kafka:/kafka \
+    -v "${CONFIG_HOME}"/message-router/dcae-startup-vm-message-router/docker_files/start-kafka.sh:/start-kafka.sh \
     -v /var/run/docker.sock:/var/run/docker.sock \
     linuxkitpoc/kafka:latest
 
@@ -66,9 +68,9 @@ launch() {
     --net onap-message-router \
     -p 30227:3904 \
     -p 30226:3095 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dmaap/MsgRtrApi.properties:/appl/dmaapMR1/bundleconfig/etc/appprops/MsgRtrApi.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dmaap/cadi.properties:/appl/dmaapMR1/etc/cadi.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/message-router/dmaap/mykey:/appl/dmaapMR1/etc/keyfile \
+    -v "${CONFIG_HOME}"/message-router/dmaap/MsgRtrApi.properties:/appl/dmaapMR1/bundleconfig/etc/appprops/MsgRtrApi.properties \
+    -v "${CONFIG_HOME}"/message-router/dmaap/cadi.properties:/appl/dmaapMR1/etc/cadi.properties \
+    -v "${CONFIG_HOME}"/message-router/dmaap/mykey:/appl/dmaapMR1/etc/keyfile \
     linuxkitpoc/dmaap:latest
 }
 

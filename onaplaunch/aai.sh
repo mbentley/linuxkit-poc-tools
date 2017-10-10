@@ -2,6 +2,8 @@
 
 set -e
 
+CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+
 remove() {
   echo -e "\nKilling and removing containers..."
   #shellcheck disable=2046
@@ -49,12 +51,12 @@ launch() {
     -e docker_gitbranch=release-1.0.0 \
     -e DEBIAN_FRONTEND=noninteractive \
     -e JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/aai/etc/ssl/certs:/etc/ssl/certs \
+    -v "${CONFIG_HOME}"/aai/etc/ssl/certs:/etc/ssl/certs \
     -v aai-logroot:/opt/aai/logroot/AAI \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/aai/aai-config:/var/chef/aai-config \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/aai/aai-data:/var/chef/aai-data \
+    -v "${CONFIG_HOME}"/aai/aai-config:/var/chef/aai-config \
+    -v "${CONFIG_HOME}"/aai/aai-data:/var/chef/aai-data \
     linuxkitpoc/ajsc-aai:1.0-STAGING-latest
-    #-v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/aai/opt/aai/logroot:/opt/aai/logroot \
+    #-v "${CONFIG_HOME}"/aai/opt/aai/logroot:/opt/aai/logroot \
 
   ## model-loader
   echo -e "\nLaunching model-loader..."

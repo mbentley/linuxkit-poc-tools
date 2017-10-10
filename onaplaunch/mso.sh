@@ -2,6 +2,8 @@
 
 set -e
 
+CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+
 remove() {
   echo -e "\nKilling and removing containers..."
   #shellcheck disable=2046
@@ -36,8 +38,8 @@ launch() {
     -e MYSQL_ROOT_PASSWORD=password \
     -e MARIADB_MAJOR="10.1" \
     -e MARIADB_VERSION="10.1.11+maria-1~jessie" \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/mariadb/conf.d:/etc/mysql/conf.d \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d \
+    -v "${CONFIG_HOME}"/mso/mariadb/conf.d:/etc/mysql/conf.d \
+    -v "${CONFIG_HOME}"/mso/mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d \
     -v mso-mariadb:/var/lib/mysql \
     linuxkitpoc/mariadb:10.1.11
 
@@ -52,8 +54,8 @@ launch() {
     -p 30223:8080 \
     -p 30222:9990 \
     -p 30250:8787 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/mso:/shared \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/mso/docker-files:/docker-files \
+    -v "${CONFIG_HOME}"/mso/mso:/shared \
+    -v "${CONFIG_HOME}"/mso/docker-files:/docker-files \
     linuxkitpoc/mso:1.0-STAGING-latest \
       /docker-files/scripts/start-jboss-server.sh
 }

@@ -2,6 +2,8 @@
 
 set -e
 
+CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+
 remove() {
   echo -e "\nKilling and removing containers..."
   #shellcheck disable=2046
@@ -59,8 +61,8 @@ launch() {
     --label app=policy \
     --net onap-policy \
     -p 30217:6969 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/drools/settings.xml:/usr/share/maven/conf/settings.xml \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/drools:/tmp/policy-install/config \
+    -v "${CONFIG_HOME}"/policy/drools/settings.xml:/usr/share/maven/conf/settings.xml \
+    -v "${CONFIG_HOME}"/policy/opt/policy/config/drools:/tmp/policy-install/config \
     linuxkitpoc/policy-drools:1.0-STAGING-latest \
       /bin/bash -c './do-start.sh'
 
@@ -72,7 +74,7 @@ launch() {
     --net onap-policy \
     -p 8443:8443 \
     -p 30218:9091 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
+    -v "${CONFIG_HOME}"/policy/opt/policy/config/pe:/tmp/policy-install/config \
     linuxkitpoc/policy-pe:1.0-STAGING-latest \
       pap
 
@@ -83,7 +85,7 @@ launch() {
     --label app=policy \
     --net onap-policy \
     -p 30220:8081 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
+    -v "${CONFIG_HOME}"/policy/opt/policy/config/pe:/tmp/policy-install/config \
     linuxkitpoc/policy-pe:1.0-STAGING-latest \
       pdp
 
@@ -94,7 +96,7 @@ launch() {
     --label app=policy \
     --net onap-policy \
     -p 30221:8480 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
+    -v "${CONFIG_HOME}"/policy/opt/policy/config/pe:/tmp/policy-install/config \
     linuxkitpoc/policy-pe:1.0-STAGING-latest \
       pypdp
 
@@ -105,7 +107,7 @@ launch() {
     --label app=policy \
     --net onap-policy \
     -p 30216:9989 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/policy/opt/policy/config/pe:/tmp/policy-install/config \
+    -v "${CONFIG_HOME}"/policy/opt/policy/config/pe:/tmp/policy-install/config \
     linuxkitpoc/policy-pe:1.0-STAGING-latest \
       brmsgw
 }

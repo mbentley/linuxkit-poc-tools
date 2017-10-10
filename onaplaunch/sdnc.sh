@@ -2,6 +2,8 @@
 
 set -e
 
+CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+
 remove() {
   echo -e "\nKilling and removing containers..."
   #shellcheck disable=2046
@@ -62,7 +64,7 @@ launch() {
     -p 30202:8181 \
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/sdnc/data/properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdnc/conf:/opt/openecomp/sdnc/data/properties \
+    -v "${CONFIG_HOME}"/sdnc/conf:/opt/openecomp/sdnc/data/properties \
     linuxkitpoc/sdnc-image:1.0-STAGING-latest \
       /opt/openecomp/sdnc/bin/startODL.sh
 
@@ -75,7 +77,7 @@ launch() {
     -p 30201:8843 \
     -e MYSQL_ROOT_PASSWORD="openECOMP1.0" \
     -e SDNC_CONFIG_DIR=/opt/openecomp/sdnc/data/properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdnc/conf:/opt/openecomp/sdnc/data/properties \
+    -v "${CONFIG_HOME}"/sdnc/conf:/opt/openecomp/sdnc/data/properties \
     linuxkitpoc/admportal-sdnc-image:1.0-STAGING-latest \
       /bin/bash -c 'cd /opt/openecomp/sdnc/admportal/shell && ./start_portal.sh'
 }

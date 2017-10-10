@@ -2,6 +2,8 @@
 
 set -e
 
+CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+
 remove() {
   echo -e "\nKilling and removing containers..."
   #shellcheck disable=2046
@@ -33,11 +35,11 @@ launch() {
     --label app=robot \
     --net onap-robot \
     -p 30209:88 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/eteshare:/share \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/robot/aassets:/var/opt/OpenECOMP_ETE/robot/assets \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/robot/resources:/var/opt/OpenECOMP_ETE/robot/resources \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/robot/testsuites:/var/opt/OpenECOMP_ETE/robot/testsuites \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/robot/authorization:/etc/lighttpd/authorization \
+    -v "${CONFIG_HOME}"/robot/eteshare:/share \
+    -v "${CONFIG_HOME}"/robot/robot/aassets:/var/opt/OpenECOMP_ETE/robot/assets \
+    -v "${CONFIG_HOME}"/robot/robot/resources:/var/opt/OpenECOMP_ETE/robot/resources \
+    -v "${CONFIG_HOME}"/robot/robot/testsuites:/var/opt/OpenECOMP_ETE/robot/testsuites \
+    -v "${CONFIG_HOME}"/robot/authorization:/etc/lighttpd/authorization \
     linuxkitpoc/testsuite:1.0-STAGING-latest
 }
 

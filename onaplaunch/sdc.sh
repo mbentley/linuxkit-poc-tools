@@ -2,6 +2,8 @@
 
 set -e
 
+CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+
 # figure out host ip
 DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
 DEFAULT_IP="$(ip addr show dev "${DEFAULT_IFACE}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
@@ -49,7 +51,7 @@ launch() {
     -e HOST_IP="${DEFAULT_IP}" \
     -e ES_HEAP_SIZE=1024M \
     -v /etc/localtime:/etc/localtime \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
+    -v "${CONFIG_HOME}"/sdc/environments:/root/chef-solo/environments \
     -v sdc-es:/usr/share/elasticsearch/data \
     -v sdc-logs:/var/lib/jetty/logs \
     linuxkitpoc/sdc-elasticsearch:1.0-STAGING-latest
@@ -71,7 +73,7 @@ launch() {
     -v /etc/localtime:/etc/localtime \
     -v sdc-cs:/var/lib/cassandra \
     -v sdc-cs-logs:/var/log/cassandra \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
+    -v "${CONFIG_HOME}"/sdc/environments:/root/chef-solo/environments \
     -v sdc-logs:/var/lib/jetty/logs \
     linuxkitpoc/sdc-cassandra:1.0-STAGING-latest
 
@@ -88,7 +90,7 @@ launch() {
     -e ENVNAME=AUTO \
     -e ELASTICSEARCH_URL=http://sdc-es:9200 \
     -v /etc/localtime:/etc/localtime \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
+    -v "${CONFIG_HOME}"/sdc/environments:/root/chef-solo/environments \
     -v sdc-logs:/var/lib/jetty/logs \
     linuxkitpoc/sdc-kibana:1.0-STAGING-latest
 
@@ -103,9 +105,9 @@ launch() {
     -e ENVNAME=AUTO \
     -e HOST_IP="${DEFAULT_IP}" \
     -v /etc/localtime:/etc/localtime \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/sdc-fe/FE_2_setup_configuration.rb:/root/chef-solo/cookbooks/sdc-catalog-fe/recipes/FE_2_setup_configuration.rb \
+    -v "${CONFIG_HOME}"/sdc/environments:/root/chef-solo/environments \
+    -v "${CONFIG_HOME}"/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
+    -v "${CONFIG_HOME}"/sdc/sdc-fe/FE_2_setup_configuration.rb:/root/chef-solo/cookbooks/sdc-catalog-fe/recipes/FE_2_setup_configuration.rb \
     -v sdc-es:/usr/share/elasticsearch/data \
     -v sdc-logs:/var/lib/jetty/logs \
     linuxkitpoc/sdc-frontend:1.0-STAGING-latest
@@ -124,8 +126,8 @@ launch() {
     -e ENVNAME=AUTO \
     -e HOST_IP=127.0.0.1 \
     -v /etc/localtime:/etc/localtime \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/environments:/root/chef-solo/environments \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
+    -v "${CONFIG_HOME}"/sdc/environments:/root/chef-solo/environments \
+    -v "${CONFIG_HOME}"/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
     -v sdc-es:/usr/share/elasticsearch/data \
     -v sdc-logs:/var/lib/jetty/logs \
     linuxkitpoc/sdc-backend:1.0-STAGING-latest

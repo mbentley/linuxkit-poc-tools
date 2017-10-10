@@ -2,6 +2,8 @@
 
 set -e
 
+CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+
 remove() {
   echo -e "\nKilling and removing containers..."
   #shellcheck disable=2046
@@ -38,8 +40,8 @@ launch() {
     -e MYSQL_PASSWORD=Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U \
     -e MYSQL_ROOT_PASSWORD=LF+tp_1WqgSY \
     -v vid-mariadb-data:/var/lib/mysql \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/vid/vid/lf_config/vid-pre-init.sql:/docker-entrypoint-initdb.d/vid-pre-init.sql \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/vid/vid/lf_config/vid-my.cnf:/etc/mysql/my.cnf \
+    -v "${CONFIG_HOME}"/vid/vid/lf_config/vid-pre-init.sql:/docker-entrypoint-initdb.d/vid-pre-init.sql \
+    -v "${CONFIG_HOME}"/vid/vid/lf_config/vid-my.cnf:/etc/mysql/my.cnf \
     linuxkitpoc/mariadb:10
 
   ## vid

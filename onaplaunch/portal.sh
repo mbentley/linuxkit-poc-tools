@@ -2,6 +2,8 @@
 
 set -e
 
+CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+
 # figure out host ip
 DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
 DEFAULT_IP="$(ip addr show dev "${DEFAULT_IFACE}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
@@ -42,7 +44,7 @@ launch() {
     -e MYSQL_HOST=portaldb.onap-portal \
     -e MYSQL_ROOT_PASSWORD=password \
     -v portal-mariadb-data:/var/lib/mysql \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/mariadb/Apps_Users_OnBoarding_Script.sql:/docker-entrypoint-initdb.d/z_Apps_Users_OnBoarding_Script.sql \
+    -v "${CONFIG_HOME}"/portal/mariadb/Apps_Users_OnBoarding_Script.sql:/docker-entrypoint-initdb.d/z_Apps_Users_OnBoarding_Script.sql \
     linuxkitpoc/portaldb:1.0-STAGING-latest
 
   ## portalapps
@@ -54,17 +56,17 @@ launch() {
     -p 30213:8005 \
     -p 30214:8009 \
     -p 8989:8080 \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/fusion.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/fusion/conf/fusion.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/openid-connect.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/classes/openid-connect.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/system.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/conf/system.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/portal.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/classes/portal.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPDBCAPP/fusion.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPDBCAPP/WEB-INF/fusion/fusion.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPDBCAPP/system.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPDBCAPP/WEB-INF/conf/system.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPDBCAPP/portal.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPDBCAPP/WEB-INF/classes/portal.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPDBCAPP/dbcapp.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPDBCAPP/WEB-INF/dbcapp/dbcapp.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPSDKAPP/system.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPSDKAPP/WEB-INF/conf/system.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal/portal-fe/webapps/etc/ECOMPSDKAPP/portal.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPSDKAPP/WEB-INF/classes/portal.properties \
-    -v "${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config/portal:/portal_root \
+    -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/fusion.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/fusion/conf/fusion.properties \
+    -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/openid-connect.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/classes/openid-connect.properties \
+    -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/system.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/conf/system.properties \
+    -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/portal.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/classes/portal.properties \
+    -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPDBCAPP/fusion.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPDBCAPP/WEB-INF/fusion/fusion.properties \
+    -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPDBCAPP/system.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPDBCAPP/WEB-INF/conf/system.properties \
+    -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPDBCAPP/portal.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPDBCAPP/WEB-INF/classes/portal.properties \
+    -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPDBCAPP/dbcapp.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPDBCAPP/WEB-INF/dbcapp/dbcapp.properties \
+    -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPSDKAPP/system.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPSDKAPP/WEB-INF/conf/system.properties \
+    -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPSDKAPP/portal.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPSDKAPP/WEB-INF/classes/portal.properties \
+    -v "${CONFIG_HOME}"/portal:/portal_root \
     -v portalapps-logs:/opt/apache-tomcat-8.0.37/logs \
     linuxkitpoc/portalapps:1.0-STAGING-latest
 
