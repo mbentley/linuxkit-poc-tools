@@ -82,6 +82,13 @@ pull_images() {
   done
 }
 
+list_new_tags(){
+  for IMAGE in ${IMAGES}
+  do
+    echo "linuxkitpoc/$(echo "${IMAGE}" | awk -F '/' '{print $NF}')"
+  done
+}
+
 retag_images() {
   for IMAGE in ${IMAGES}
   do
@@ -107,6 +114,29 @@ create_repos() {
       \"description\": \"from ${IMAGE}\",
       \"full_description\": \"Image was pulled from ${IMAGE}\",
       \"is_private\": false}" "https://hub.docker.com/v2/repositories/" || true
+  done
+}
+
+change_repo_visibility() {
+  check_credentials
+
+  PRIVATE="${1}"
+  if [ "${PRIVATE}" != "true" ] && [ "${PRIVATE}" != "false" ]
+  then
+    echo "Invalid value ($PRIVATE); must be either true or false"
+    echo "Usage: ${0} repos_private {true|false}"
+    exit 1
+  fi
+
+  # get docker hub token
+  TOKEN=$(curl -sf -H "Content-Type: application/json" -X POST -d '{"username": "'"${USERNAME}"'", "password": "'"${PASSWORD}"'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
+
+  for IMAGE in $(list_new_tags) linuxkitpoc/oomclone:latest linuxkitpoc/onaplaunch:latest
+  do
+    REPO="$(echo "${IMAGE}" | awk -F ':' '{print $1}')"
+    echo -n "Setting $REPO to private..."
+    curl -X POST -H "Authorization: JWT ${TOKEN}" -d '{"is_private":'"${PRIVATE}"'}' "https://hub.docker.com/v2/repositories/${REPO}/privacy/"
+    echo "done"
   done
 }
 
@@ -137,11 +167,14 @@ case ${1} in
   create_repos)
     create_repos
     ;;
+  repos_private)
+    change_repo_visibility "${2}"
+    ;;
   push)
     push_images
     ;;
   *)
-    echo "Usage: $0 {pull|list|compare|retag|create_repos|push}"
+    echo "Usage: $0 {pull|list|compare|retag|create_repos|repos_private|push}"
     exit 1
     ;;
 esac
