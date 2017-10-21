@@ -134,8 +134,8 @@ change_repo_visibility() {
   for IMAGE in $(list_new_tags) linuxkitpoc/oomclone:latest linuxkitpoc/onaplaunch:latest
   do
     REPO="$(echo "${IMAGE}" | awk -F ':' '{print $1}')"
-    echo -n "Setting $REPO to private..."
-    curl -X POST -H "Authorization: JWT ${TOKEN}" -d '{"is_private":'"${PRIVATE}"'}' "https://hub.docker.com/v2/repositories/${REPO}/privacy/"
+    echo -n "Setting ${REPO} 'is_private' to ${PRIVATE}..."
+    curl -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: JWT ${TOKEN}" -d "{\"is_private\":${PRIVATE}}" "https://hub.docker.com/v2/repositories/${REPO}/privacy/"
     echo "done"
   done
 }
