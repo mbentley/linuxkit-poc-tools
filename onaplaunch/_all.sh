@@ -30,14 +30,14 @@ execute() {
 }
 
 clone() {
-#  # clone the repo everywhere using a global service
-#  docker service create --tty --detach=false \
-#    --name oomclone \
-#    --mode global \
-#    --restart-condition none \
-#    --mount type=bind,source=/data,destination=/root \
-#    linuxkitpoc/oomclone:latest
-  docker run --rm -v /data:/root linuxkitpoc/oomclone:latest
+  # clone the repo everywhere using a global service
+  docker service create --tty --detach=false \
+    --name oomclone \
+    --mode global \
+    --restart-condition none \
+    --mount type=bind,source=/data,destination=/root \
+    linuxkitpoc/oomclone:latest
+#  docker run --rm -v /data:/root linuxkitpoc/oomclone:latest
 }
 
 main() {
