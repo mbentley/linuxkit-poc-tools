@@ -40,6 +40,7 @@ clone() {
 }
 
 datadirs() {
+  echo "Creating shared data directories under '/shared_data'..."
   # create data directories
   if [ ! -d "/shared_data" ]
   then
@@ -48,15 +49,18 @@ datadirs() {
   else
     echo "Shared data directory '/shared_data' already exists."
   fi
+  echo -e "done.\n"
 
   (cd /shared_data &&\
     mkdir aai-logroot appc-data message-router-zk-conf message-router-data-kafka mso-mariadb policy-data policy-data2 nexus-data portal-mariadb-data portal-ubuntu-init portalapps-logs sdc-es sdc-cs sdc-cs-logs sdc-logs sdnc-data vid-mariadb-data)
 }
 
 cleanup() {
+  echo "Removing shared data directories under '/shared_data'..."
   # clear data
   (cd /shared_data &&\
     rm -rf ./*)
+  echo -e "done.\n"
 }
 
 main() {
