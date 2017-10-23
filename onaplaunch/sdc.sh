@@ -62,8 +62,8 @@ launch() {
     -v sdc-logs:/var/lib/jetty/logs \
     linuxkitpoc/sdc-elasticsearch:1.0-STAGING-latest
 
-  echo "Wait 15 seconds for sdc-cs to come up..."
-  sleep 30
+  echo "Wait 60 seconds for sdc-es to come up..."
+  sleep 60
 
   ## sdc-cs
   echo -e "\nLaunching sdc-cs..."
@@ -83,8 +83,8 @@ launch() {
     -v sdc-logs:/var/lib/jetty/logs \
     linuxkitpoc/sdc-cassandra:1.0-STAGING-latest
 
-  echo "Wait 30 seconds for sdc-cs to come up..."
-  sleep 30
+  echo "Wait 45 seconds for sdc-cs to come up..."
+  sleep 45
 
   ## sdc-kb
   echo -e "\nLaunching sdc-kb..."
@@ -118,8 +118,8 @@ launch() {
     -v sdc-logs:/var/lib/jetty/logs \
     linuxkitpoc/sdc-frontend:1.0-STAGING-latest
 
-  echo "Wait 15 seconds for the SDC services to come up..."
-  sleep 15
+  echo "Wait 45 seconds for the SDC services to come up..."
+  sleep 45
 
   ## sdc-be
   echo -e "\nLaunching sdc-be..."
