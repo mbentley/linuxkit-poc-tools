@@ -46,16 +46,38 @@ clone() {
     linuxkitpoc/oomclone:latest
 }
 
+datadirs() {
+  # create data directories
+  if [ ! -d "/shared_data" ]
+  then
+    echo "Creating /shared_data..."
+    mkdir /shared_data
+  else
+    echo "Shared data directory '/shared_data' already exists."
+  fi
+
+  (cd /shared_data &&\
+    mkdir aai-logroot appc-data message-router-zk-conf message-router-data-kafka mso-mariadb policy-data policy-data2 nexus-data portal-mariadb-data portal-ubuntu-init portalapps-logs sdc-es sdc-cs sdc-cs-logs sdc-logs sdnc-data vid-mariadb-data)
+}
+
+cleanup() {
+  # clear data
+  (cd /shared_data &&\
+    rm -rf ./*)
+}
+
 main() {
   case $1 in
     launch)
       clone
+      datadirs
       APPS="message-router sdc mso aai robot portal vid sdnc policy appc"
       execute "${1}"
       ;;
     remove)
       APPS="appc policy sdnc vid portal robot aai mso sdc message-router"
       execute "${1}"
+      cleanup
       ;;
     clone)
       "${1}"
