@@ -2,7 +2,8 @@
 
 set -e
 
-CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+# set CONFIG_HOME
+CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
 
 remove() {
   echo -e "\nKilling and removing containers..."
@@ -23,10 +24,11 @@ remove() {
 launch() {
   # appc
   echo -e "\nCreating network..."
-  docker network create --label app=appc --label onap=1 --driver bridge onap-appc
+  docker network create --label app=appc --label onap=1 --driver overlay --attachable onap-appc
 
   echo -e "\nCreating volumes..."
-  docker volume create --label app=appc --label onap=1 --driver local appc-data
+  #shellcheck disable=2086
+  docker volume create --label app=appc --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/appc-data appc-data
 
   ## appc-dbhost
   echo -e "\nLaunching appc-dbhost..."

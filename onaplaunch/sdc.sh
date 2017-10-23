@@ -2,7 +2,8 @@
 
 set -e
 
-CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+# set CONFIG_HOME
+CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
 
 # figure out host ip
 DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
@@ -28,16 +29,21 @@ remove() {
 launch() {
   # sdc
   echo -e "\nCreating network..."
-  docker network create --label app=sdc --label onap=1 --driver bridge onap-sdc
+  docker network create --label app=sdc --label onap=1 --driver overlay --attachable onap-sdc
 
   echo -e "\nCreating volumes..."
-  docker volume create --label app=sdc --label onap=1 --driver local sdc-es
-  docker volume create --label app=sdc --label onap=1 --driver local sdc-cs
-  docker volume create --label app=sdc --label onap=1 --driver local sdc-cs-logs
-  docker volume create --label app=sdc --label onap=1 --driver local sdc-logs
+  #shellcheck disable=2086
+  docker volume create --label app=sdc --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/sdc-es sdc-es
+  #shellcheck disable=2086
+  docker volume create --label app=sdc --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/sdc-cs sdc-cs
+  #shellcheck disable=2086
+  docker volume create --label app=sdc --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/sdc-cs-logs sdc-cs-logs
+  #shellcheck disable=2086
+  docker volume create --label app=sdc --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/sdc-logs sdc-logs
 
   echo -e "\nSetting volume permissions for Jetty..."
-  chown -R 999:999 "$(docker volume inspect --format '{{.Mountpoint}}' sdc-logs)"
+  docker run -it --rm -v sdc-logs:/data busybox chown -R 999:999 /data
+  #chown -R 999:999 "$(docker volume inspect --format '{{.Mountpoint}}' sdc-logs)"
 
   ## sdc-es
   echo -e "\nLaunching sdc-es..."

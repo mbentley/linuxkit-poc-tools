@@ -2,7 +2,8 @@
 
 set -e
 
-CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+# set CONFIG_HOME
+CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
 
 remove() {
   echo -e "\nKilling and removing containers..."
@@ -23,11 +24,13 @@ remove() {
 launch() {
   # message-router
   echo -e "\nCreating network..."
-  docker network create --label app=message-router --label onap=1 --driver bridge onap-message-router
+  docker network create --label app=message-router --label onap=1 --driver overlay --attachable onap-message-router
 
   echo -e "\nCreating volumes..."
-  docker volume create --label app=message-router --label onap=1 --driver local message-router-zk-conf
-  docker volume create --label app=message-router --label onap=1 --driver local message-router-data-kafka
+  #shellcheck disable=2086
+  docker volume create --label app=message-router --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/message-router-zk-conf message-router-zk-conf
+  #shellcheck disable=2086
+  docker volume create --label app=message-router --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/message-router-data-kafka message-router-data-kafka
 
   ## zookeeper
   echo -e "\nLaunching zookeeper..."

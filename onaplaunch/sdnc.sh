@@ -2,7 +2,8 @@
 
 set -e
 
-CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+# set CONFIG_HOME
+CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
 
 remove() {
   echo -e "\nKilling and removing containers..."
@@ -23,10 +24,11 @@ remove() {
 launch() {
   # sdnc
   echo -e "\nCreating network..."
-  docker network create --label app=sdnc --label onap=1 --driver bridge onap-sdnc
+  docker network create --label app=sdnc --label onap=1 --driver overlay --attachable onap-sdnc
 
   echo -e "\nCreating volumes..."
-  docker volume create --label app=sdnc --label onap=1 --driver local sdnc-data
+  #shellcheck disable=2086
+  docker volume create --label app=sdnc --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/sdnc-data sdnc-data
 
   ## sdnc-dbhost
   echo -e "\nLaunching sdnc-dbhost..."
