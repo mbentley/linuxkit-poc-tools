@@ -2,8 +2,9 @@
 
 set -e
 
-# set CONFIG_HOME
-CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+# initialize
+# shellcheck disable=SC1090
+. "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/init.sh"
 
 remove() {
   echo -e "\nKilling and removing containers..."
@@ -46,6 +47,9 @@ launch() {
     -v policy-data2:/etc/mysql \
     linuxkitpoc/policy-db:1.0-STAGING-latest \
       /bin/bash -c 'exec bash /tmp/do-start.sh'
+
+  echo "Wait 45 seconds for policy-mariadb to come up..."
+  sleep 45
 
   ## nexus
   echo -e "\nLaunching nexus..."

@@ -2,8 +2,9 @@
 
 set -e
 
-# set CONFIG_HOME
-CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+# initialize
+# shellcheck disable=SC1090
+. "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/init.sh"
 
 # figure out host ip
 DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
