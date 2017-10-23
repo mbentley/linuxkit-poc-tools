@@ -2,7 +2,8 @@
 
 set -e
 
-CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+# set CONFIG_HOME
+CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
 
 # figure out host ip
 DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
@@ -27,12 +28,15 @@ remove() {
 launch() {
   # portal
   echo -e "\nCreating network..."
-  docker network create --label app=portal --label onap=1 --driver bridge onap-portal
+  docker network create --label app=portal --label onap=1 --driver overlay --attachable onap-portal
 
   echo -e "\nCreating volumes..."
-  docker volume create --label app=portal --label onap=1 --driver local portal-mariadb-data
-  docker volume create --label app=portal --label onap=1 --driver local portal-ubuntu-init
-  docker volume create --label app=portal --label onap=1 --driver local portalapps-logs
+  #shellcheck disable=2086
+  docker volume create --label app=portal --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/portal-mariadb-data portal-mariadb-data
+  #shellcheck disable=2086
+  docker volume create --label app=portal --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/portal-ubuntu-init portal-ubuntu-init
+  #shellcheck disable=2086
+  docker volume create --label app=portal --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/portalapps-logs portalapps-logs
 
   ## portaldb
   echo -e "\nLaunching portaldb..."

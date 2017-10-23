@@ -2,7 +2,8 @@
 
 set -e
 
-CONFIG_HOME="${CONFIG_HOME:-"${HOME}"/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+# set CONFIG_HOME
+CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
 
 remove() {
   echo -e "\nKilling and removing containers..."
@@ -23,12 +24,15 @@ remove() {
 launch() {
   # policy
   echo -e "\nCreating network..."
-  docker network create --label app=policy --label onap=1 --driver bridge onap-policy
+  docker network create --label app=policy --label onap=1 --driver overlay --attachable onap-policy
 
   echo -e "\nCreating volumes..."
-  docker volume create --label app=policy --label onap=1 --driver local policy-data
-  docker volume create --label app=policy --label onap=1 --driver local policy-data2
-  docker volume create --label app=policy --label onap=1 --driver local nexus-data
+  #shellcheck disable=2086
+  docker volume create --label app=policy --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/policy-data policy-data
+  #shellcheck disable=2086
+  docker volume create --label app=policy --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/policy-data2 policy-data2
+  #shellcheck disable=2086
+  docker volume create --label app=policy --label onap=1 --driver local ${LOCAL_VOLUME_OPTS}/nexus-data nexus-data
 
   ## policy-dbhost
   echo -e "\nLaunching policy-mariadb..."

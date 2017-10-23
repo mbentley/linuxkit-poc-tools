@@ -2,6 +2,17 @@
 
 set -e
 
+# set CONFIG_HOME, NFS_HOST, and LOCAL_VOLUME_OPTS
+export CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+export NFS_HOST="${NFS_HOST:-}"
+if [ ! -z "${NFS_HOST}" ]
+then
+  export LOCAL_VOLUME_OPTS="--opt type=nfs --opt o=addr=${NFS_HOST},rw,hard,intr,sync,actimeo=0 --opt device=:/shared_data"
+else
+  echo "Missing NFS_HOST variable"
+  exit 1
+fi
+
 # check to see if running as root
 if [ "$EUID" -ne 0 ]
 then
@@ -19,10 +30,14 @@ execute() {
 }
 
 clone() {
-  if [ ! -d "${HOME}/git/oom" ]
-  then
-    docker run --rm -v /root:/root linuxkitpoc/oomclone:latest
-  fi
+#  # clone the repo everywhere using a global service
+#  docker service create --tty --detach=false \
+#    --name oomclone \
+#    --mode global \
+#    --restart-condition none \
+#    --mount type=bind,source=/data,destination=/root \
+#    linuxkitpoc/oomclone:latest
+  docker run --rm -v /data:/root linuxkitpoc/oomclone:latest
 }
 
 main() {
