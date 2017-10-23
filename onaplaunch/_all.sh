@@ -5,13 +5,14 @@ set -e
 # set CONFIG_HOME, NFS_HOST, and LOCAL_VOLUME_OPTS
 export CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
 export NFS_HOST="${NFS_HOST:-}"
-if [ ! -z "${NFS_HOST}" ]
+if [ -z "${NFS_HOST}" ]
 then
-  export LOCAL_VOLUME_OPTS="--opt type=nfs --opt o=addr=${NFS_HOST},rw,hard,intr,sync,actimeo=0,nolock --opt device=:/shared_data"
-else
-  echo "Missing NFS_HOST variable"
-  exit 1
+  # figure out the default interface and use that
+  DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
+  NFS_HOST="$(ip addr show dev "${DEFAULT_IFACE}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
 fi
+
+export LOCAL_VOLUME_OPTS="--opt type=nfs --opt o=addr=${NFS_HOST},rw,hard,intr,sync,actimeo=0,nolock --opt device=:/shared_data"
 
 # check to see if running as root
 if [ "$EUID" -ne 0 ]
