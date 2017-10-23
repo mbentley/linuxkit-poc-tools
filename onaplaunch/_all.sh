@@ -40,6 +40,13 @@ clone() {
 }
 
 datadirs() {
+  if [ -d "/data" ]
+  then
+    echo "Creating data directory '/data'..."
+    mkdir /data
+    echo -e "done.\n"
+  fi
+
   echo "Creating shared data directories under '/shared_data'..."
   # create data directories
   if [ ! -d "/shared_data" ]
