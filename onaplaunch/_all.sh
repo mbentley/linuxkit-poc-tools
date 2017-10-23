@@ -7,7 +7,7 @@ export CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/conf
 export NFS_HOST="${NFS_HOST:-}"
 if [ ! -z "${NFS_HOST}" ]
 then
-  export LOCAL_VOLUME_OPTS="--opt type=nfs --opt o=addr=${NFS_HOST},rw,hard,intr,sync,actimeo=0 --opt device=:/shared_data"
+  export LOCAL_VOLUME_OPTS="--opt type=nfs --opt o=addr=${NFS_HOST},rw,hard,intr,sync,actimeo=0,nolock --opt device=:/shared_data"
 else
   echo "Missing NFS_HOST variable"
   exit 1
