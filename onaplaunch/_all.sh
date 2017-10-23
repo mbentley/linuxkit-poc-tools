@@ -30,6 +30,13 @@ execute() {
 }
 
 clone() {
+  # check to see if service has been previously deployed
+  if [ "$(docker service ls -f name=oomclone --format '{{.Name}}')" = "oomclone" ]
+  then
+    # service exists; remove
+    docker service rm oomclone
+  fi
+
   # clone the repo everywhere using a global service
   docker service create --tty --detach=false \
     --name oomclone \
@@ -37,7 +44,6 @@ clone() {
     --restart-condition none \
     --mount type=bind,source=/data,destination=/root \
     linuxkitpoc/oomclone:latest
-#  docker run --rm -v /data:/root linuxkitpoc/oomclone:latest
 }
 
 main() {
