@@ -39,7 +39,7 @@ clone() {
     linuxkitpoc/oomclone:latest
 
   # TODO: this should be in the oomclone image if it should happen everywhere
-  replace_values
+  #replace_values
 }
 
 replace_values() {
