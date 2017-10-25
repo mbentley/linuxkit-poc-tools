@@ -43,7 +43,7 @@ clone() {
 }
 
 replace_values() {
-  cd /data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config
+  (cd /data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config
   NEW_VALUE="34.230.201.217"
 
   for APP in policy portal sdc vid
@@ -52,7 +52,7 @@ replace_values() {
     do
       sed -i "s/${APP}.api.simpledemo.openecomp.org/${NEW_VALUE}/g" "${FILE}"
     done
-  done
+  done)
 }
 
 datadirs() {
