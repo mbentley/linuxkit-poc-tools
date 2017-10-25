@@ -37,6 +37,22 @@ clone() {
     --restart-condition none \
     --mount type=bind,source=/data,destination=/root \
     linuxkitpoc/oomclone:latest
+
+  # TODO: this should be in the oomclone image if it should happen everywhere
+  replace_values
+}
+
+replace_values() {
+  cd /data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config
+  NEW_VALUE="34.230.201.217"
+
+  for APP in policy portal sdc vid
+  do
+    grep -rlI ${APP}.api.simpledemo.openecomp.org ./* | while IFS= read -r FILE
+    do
+      echo sed -i "s/${APP}.api.simpledemo.openecomp.org/${NEW_VALUE}/g" "${FILE}"
+    done
+  done
 }
 
 datadirs() {
