@@ -50,7 +50,7 @@ replace_values() {
   do
     grep -rlI ${APP}.api.simpledemo.openecomp.org ./* | while IFS= read -r FILE
     do
-      echo sed -i "s/${APP}.api.simpledemo.openecomp.org/${NEW_VALUE}/g" "${FILE}"
+      sed -i "s/${APP}.api.simpledemo.openecomp.org/${NEW_VALUE}/g" "${FILE}"
     done
   done
 }
