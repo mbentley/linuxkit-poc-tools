@@ -56,7 +56,7 @@ replace_values() {
 }
 
 datadirs() {
-  if [ -d "/data" ]
+  if [ ! -d "/data" ]
   then
     echo "Creating data directory '/data'..."
     mkdir /data
