@@ -55,7 +55,7 @@ launch() {
     -p 9200 \
     -p 9300 \
     -e ENVNAME=AUTO \
-    -e HOST_IP="${DEFAULT_IP}" \
+    -e HOST_IP="127.0.0.1" \
     -e ES_HEAP_SIZE=1024M \
     -v /etc/localtime:/etc/localtime \
     -v "${CONFIG_HOME}"/sdc/environments:/root/chef-solo/environments \
@@ -75,7 +75,7 @@ launch() {
     -p 9042:9042 \
     -p 9160 \
     -e ENVNAME=AUTO \
-    -e HOST_IP="${DEFAULT_IP}" \
+    -e HOST_IP="127.0.0.1" \
     -e ES_HEAP_SIZE=1024M \
     -v /etc/localtime:/etc/localtime \
     -v sdc-cs:/var/lib/cassandra \
@@ -111,7 +111,7 @@ launch() {
     -p 30207:9443 \
     -e constraint:frontend==true \
     -e ENVNAME=AUTO \
-    -e HOST_IP="${DEFAULT_IP}" \
+    -e HOST_IP="127.0.0.1" \
     -v /etc/localtime:/etc/localtime \
     -v "${CONFIG_HOME}"/sdc/environments:/root/chef-solo/environments \
     -v "${CONFIG_HOME}"/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
@@ -141,8 +141,6 @@ launch() {
     linuxkitpoc/sdc-backend:1.0-STAGING-latest
   docker network connect onap-message-router sdc-be
   docker start sdc-be
-
-  #-e HOST_IP="${DEFAULT_IP}" \
 }
 
 main() {
