@@ -109,6 +109,7 @@ launch() {
     --net onap-sdc \
     -p 8181:8181 \
     -p 30207:9443 \
+    -e constraint:frontend==true \
     -e ENVNAME=AUTO \
     -e HOST_IP="${DEFAULT_IP}" \
     -v /etc/localtime:/etc/localtime \

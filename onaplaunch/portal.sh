@@ -61,6 +61,7 @@ launch() {
     -p 30213:8005 \
     -p 30214:8009 \
     -p 8989:8080 \
+    -e constraint:frontend==true \
     -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/fusion.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/fusion/conf/fusion.properties \
     -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/openid-connect.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/classes/openid-connect.properties \
     -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/system.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/conf/system.properties \

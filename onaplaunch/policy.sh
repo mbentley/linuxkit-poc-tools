@@ -82,6 +82,7 @@ launch() {
     --net onap-policy \
     -p 8443:8443 \
     -p 30218:9091 \
+    -e constraint:frontend==true \
     -v "${CONFIG_HOME}"/policy/opt/policy/config/pe:/tmp/policy-install/config \
     linuxkitpoc/policy-pe:1.0-STAGING-latest \
       pap
