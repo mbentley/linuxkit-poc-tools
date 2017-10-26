@@ -24,6 +24,22 @@ execute() {
 
 clone() {
   # check to see if service has been previously deployed
+  if [ "$(docker service ls -f name=mkdir_data --format '{{.Name}}')" = "mkdir_data" ]
+  then
+    # service exists; remove
+    docker service rm mkdir_data
+  fi
+
+  # make sure the /data directory exists
+  docker service create --tty --detach=false \
+    --name mkdir_data \
+    --mode global \
+    --restart-condition none \
+    --mount type=bind,source=/,destination=/rootfs \
+    busybox:latest \
+    mkdir /rootfs/data
+
+  # check to see if service has been previously deployed
   if [ "$(docker service ls -f name=oomclone --format '{{.Name}}')" = "oomclone" ]
   then
     # service exists; remove
