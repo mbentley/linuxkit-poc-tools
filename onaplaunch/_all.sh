@@ -38,7 +38,7 @@ clone() {
     --mount type=bind,source=/data,destination=/root \
     linuxkitpoc/oomclone:latest
 
-  # TODO: this should be in the oomclone image if it should happen everywhere
+  # TODO: this should be in the oomclone image if it should happen everywhere (spoiler: this doesn't work)
   #replace_values
 }
 
