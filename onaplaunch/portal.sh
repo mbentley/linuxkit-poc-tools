@@ -6,9 +6,10 @@ set -e
 # shellcheck disable=SC1090
 . "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/init.sh"
 
-# figure out host ip
-DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
-DEFAULT_IP="$(ip addr show dev "${DEFAULT_IFACE}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
+# figure out host ip where all frontend apps are running
+#DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
+#DEFAULT_IP="$(ip addr show dev "${DEFAULT_IFACE}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
+DEFAULT_IP="$(docker run -it --rm -e constraint:frontend==true --net=host busybox ip addr show dev eth0 | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
 
 remove() {
   echo -e "\nKilling and removing containers..."
