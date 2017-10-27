@@ -87,12 +87,15 @@ launch() {
     --label app=portal \
     --net onap-portal \
     --privileged \
+    -p 30211:80 \
+    -p 30212:5900 \
+    -e constraint:frontend==true \
+    -e VNC_PASSWORD=password \
     --add-host sdc.api.simpledemo.openecomp.org:"${DEFAULT_IP}" \
     --add-host portal.api.simpledemo.openecomp.org:"${DEFAULT_IP}" \
     --add-host policy.api.simpledemo.openecomp.org:"${DEFAULT_IP}" \
     --add-host sdc.ui.simpledemo.openecomp.org:"${DEFAULT_IP}" \
     --add-host vid.api.simpledemo.openecomp.org:"${DEFAULT_IP}" \
-    -e VNC_PASSWORD=password \
     -v portal-ubuntu-init:/ubuntu-init \
     linuxkitpoc/ubuntu-desktop-lxde-vnc:latest
   # the portal-vnc-dep.yaml file uses some bad hacks to override DNS for some reason; no clue why but holding this here in case i have to implement something like it
