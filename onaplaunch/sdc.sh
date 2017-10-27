@@ -2,12 +2,14 @@
 
 set -e
 
-# set CONFIG_HOME
-CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+# initialize
+# shellcheck disable=SC1090
+. "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/init.sh"
 
 # figure out host ip
-DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
-DEFAULT_IP="$(ip addr show dev "${DEFAULT_IFACE}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
+#DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
+#DEFAULT_IP="$(ip addr show dev "${DEFAULT_IFACE}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
+DEFAULT_IP="$(docker run -it --rm -e constraint:frontend==true --net=host busybox ip addr show dev eth0 | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
 
 remove() {
   echo -e "\nKilling and removing containers..."
@@ -53,6 +55,7 @@ launch() {
     --net onap-sdc \
     -p 9200 \
     -p 9300 \
+    -e constraint:frontend==true \
     -e ENVNAME=AUTO \
     -e HOST_IP="${DEFAULT_IP}" \
     -e ES_HEAP_SIZE=1024M \
@@ -62,8 +65,8 @@ launch() {
     -v sdc-logs:/var/lib/jetty/logs \
     linuxkitpoc/sdc-elasticsearch:1.0-STAGING-latest
 
-  echo "Wait 15 seconds for sdc-cs to come up..."
-  sleep 30
+  echo "Wait 60 seconds for sdc-es to come up..."
+  sleep 60
 
   ## sdc-cs
   echo -e "\nLaunching sdc-cs..."
@@ -73,6 +76,7 @@ launch() {
     --net onap-sdc \
     -p 9042:9042 \
     -p 9160 \
+    -e constraint:frontend==true \
     -e ENVNAME=AUTO \
     -e HOST_IP="${DEFAULT_IP}" \
     -e ES_HEAP_SIZE=1024M \
@@ -83,8 +87,8 @@ launch() {
     -v sdc-logs:/var/lib/jetty/logs \
     linuxkitpoc/sdc-cassandra:1.0-STAGING-latest
 
-  echo "Wait 30 seconds for sdc-cs to come up..."
-  sleep 30
+  echo "Wait 45 seconds for sdc-cs to come up..."
+  sleep 45
 
   ## sdc-kb
   echo -e "\nLaunching sdc-kb..."
@@ -93,6 +97,7 @@ launch() {
     --label app=sdc \
     --net onap-sdc \
     -p 5601 \
+    -e constraint:frontend==true \
     -e ENVNAME=AUTO \
     -e ELASTICSEARCH_URL=http://sdc-es:9200 \
     -v /etc/localtime:/etc/localtime \
@@ -108,6 +113,7 @@ launch() {
     --net onap-sdc \
     -p 8181:8181 \
     -p 30207:9443 \
+    -e constraint:frontend==true \
     -e ENVNAME=AUTO \
     -e HOST_IP="${DEFAULT_IP}" \
     -v /etc/localtime:/etc/localtime \
@@ -118,8 +124,8 @@ launch() {
     -v sdc-logs:/var/lib/jetty/logs \
     linuxkitpoc/sdc-frontend:1.0-STAGING-latest
 
-  echo "Wait 15 seconds for the SDC services to come up..."
-  sleep 15
+  echo "Wait 45 seconds for the SDC services to come up..."
+  sleep 45
 
   ## sdc-be
   echo -e "\nLaunching sdc-be..."
@@ -129,8 +135,9 @@ launch() {
     --net onap-sdc \
     -p 30205:8080 \
     -p 30204:8443 \
+    -e constraint:frontend==true \
     -e ENVNAME=AUTO \
-    -e HOST_IP=127.0.0.1 \
+    -e HOST_IP="${DEFAULT_IP}" \
     -v /etc/localtime:/etc/localtime \
     -v "${CONFIG_HOME}"/sdc/environments:/root/chef-solo/environments \
     -v "${CONFIG_HOME}"/sdc/jetty/keystore:/var/lib/jetty/etc/keystore \
@@ -139,8 +146,6 @@ launch() {
     linuxkitpoc/sdc-backend:1.0-STAGING-latest
   docker network connect onap-message-router sdc-be
   docker start sdc-be
-
-  #-e HOST_IP="${DEFAULT_IP}" \
 }
 
 main() {

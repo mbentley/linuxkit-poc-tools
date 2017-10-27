@@ -2,12 +2,14 @@
 
 set -e
 
-# set CONFIG_HOME
-CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
+# initialize
+# shellcheck disable=SC1090
+. "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/init.sh"
 
-# figure out host ip
-DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
-DEFAULT_IP="$(ip addr show dev "${DEFAULT_IFACE}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
+# figure out host ip where all frontend apps are running
+#DEFAULT_IFACE=$(awk '$2 == 00000000 { print $1 }' /proc/net/route)
+#DEFAULT_IP="$(ip addr show dev "${DEFAULT_IFACE}" | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
+DEFAULT_IP="$(docker run -it --rm -e constraint:frontend==true --net=host busybox ip addr show dev eth0 | awk '$1 == "inet" { sub("/.*", "", $2); print $2 }')"
 
 remove() {
   echo -e "\nKilling and removing containers..."
@@ -60,6 +62,7 @@ launch() {
     -p 30213:8005 \
     -p 30214:8009 \
     -p 8989:8080 \
+    -e constraint:frontend==true \
     -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/fusion.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/fusion/conf/fusion.properties \
     -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/openid-connect.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/classes/openid-connect.properties \
     -v "${CONFIG_HOME}"/portal/portal-fe/webapps/etc/ECOMPPORTALAPP/system.properties:/PROJECT/APPS/ECOMPPORTAL/ECOMPPORTALAPP/WEB-INF/conf/system.properties \

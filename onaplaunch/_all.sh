@@ -2,16 +2,9 @@
 
 set -e
 
-# set CONFIG_HOME, NFS_HOST, and LOCAL_VOLUME_OPTS
-export CONFIG_HOME="${CONFIG_HOME:-/data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config}"
-export NFS_HOST="${NFS_HOST:-}"
-if [ ! -z "${NFS_HOST}" ]
-then
-  export LOCAL_VOLUME_OPTS="--opt type=nfs --opt o=addr=${NFS_HOST},rw,hard,intr,sync,actimeo=0 --opt device=:/shared_data"
-else
-  echo "Missing NFS_HOST variable"
-  exit 1
-fi
+# initialize
+# shellcheck disable=SC1090
+. "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/init.sh"
 
 # check to see if running as root
 if [ "$EUID" -ne 0 ]
@@ -30,6 +23,29 @@ execute() {
 }
 
 clone() {
+  # check to see if service has been previously deployed
+  if [ "$(docker service ls -f name=mkdir_data --format '{{.Name}}')" = "mkdir_data" ]
+  then
+    # service exists; remove
+    docker service rm mkdir_data
+  fi
+
+  # make sure the /data directory exists
+  docker service create --tty --detach=false \
+    --name mkdir_data \
+    --mode global \
+    --restart-condition none \
+    --mount type=bind,source=/,destination=/rootfs \
+    busybox:latest \
+    mkdir /rootfs/data
+
+  # check to see if service has been previously deployed
+  if [ "$(docker service ls -f name=oomclone --format '{{.Name}}')" = "oomclone" ]
+  then
+    # service exists; remove
+    docker service rm oomclone
+  fi
+
   # clone the repo everywhere using a global service
   docker service create --tty --detach=false \
     --name oomclone \
@@ -37,19 +53,67 @@ clone() {
     --restart-condition none \
     --mount type=bind,source=/data,destination=/root \
     linuxkitpoc/oomclone:latest
-#  docker run --rm -v /data:/root linuxkitpoc/oomclone:latest
+
+  # TODO: this should be in the oomclone image if it should happen everywhere (spoiler: this doesn't work)
+  #replace_values
+}
+
+replace_values() {
+  (cd /data/git/gerrit.onap.org/oom/kubernetes/config/docker/init/src/config
+  NEW_VALUE="34.230.201.217"
+
+  for APP in policy portal sdc vid
+  do
+    grep -rlI ${APP}.api.simpledemo.openecomp.org ./* | while IFS= read -r FILE
+    do
+      sed -i "s/${APP}.api.simpledemo.openecomp.org/${NEW_VALUE}/g" "${FILE}"
+    done
+  done)
+}
+
+datadirs() {
+  if [ ! -d "/data" ]
+  then
+    echo "Creating data directory '/data'..."
+    mkdir /data
+    echo -e "done.\n"
+  fi
+
+  echo "Creating shared data directories under '/shared_data'..."
+  # create data directories
+  if [ ! -d "/shared_data" ]
+  then
+    echo "Creating /shared_data..."
+    mkdir /shared_data
+  else
+    echo "Shared data directory '/shared_data' already exists."
+  fi
+  echo -e "done.\n"
+
+  (cd /shared_data &&\
+    mkdir aai-logroot appc-data message-router-zk-conf message-router-data-kafka mso-mariadb policy-data policy-data2 nexus-data portal-mariadb-data portal-ubuntu-init portalapps-logs sdc-es sdc-cs sdc-cs-logs sdc-logs sdnc-data vid-mariadb-data)
+}
+
+cleanup() {
+  echo "Removing shared data directories under '/shared_data'..."
+  # clear data
+  (cd /shared_data &&\
+    rm -rf ./*)
+  echo -e "done.\n"
 }
 
 main() {
   case $1 in
     launch)
       clone
+      datadirs
       APPS="message-router sdc mso aai robot portal vid sdnc policy appc"
       execute "${1}"
       ;;
     remove)
       APPS="appc policy sdnc vid portal robot aai mso sdc message-router"
       execute "${1}"
+      cleanup
       ;;
     clone)
       "${1}"
